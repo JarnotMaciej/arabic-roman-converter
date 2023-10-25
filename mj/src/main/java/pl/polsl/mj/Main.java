@@ -1,9 +1,9 @@
 package pl.polsl.mj;
 
-import pl.polsl.mj.view.*;
-
+import pl.polsl.mj.controller.*;
 
 /**
+ * Main class, responsible for running the program.
  *
  * @author mj300741@student.polsl.pl
  * @version 1.1
@@ -15,17 +15,15 @@ public class Main {
      * @param args program call parameters
      */
     public static void main(String[] args) {
-//        Scanner scanner = new Scanner(System.in);
-        View mainView = new View();
-        mainView.welcome();
-        int choice = mainView.menu();
+        Controller mainController = new Controller();
         if (args.length == 0){
-            // interactive mode
+            mainController.startInteractiveMode();
+
         } else {
-            mainView.printCommandArgs(args);
+            mainController.processCommandArgs(args);
         }
-        
-// arabic to roman -a 15
-// roman to arabic -r XV
     }
 }
+
+// arabic to roman -a 15
+// roman to arabic -r XV
