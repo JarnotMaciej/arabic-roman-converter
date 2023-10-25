@@ -1,13 +1,12 @@
 package pl.polsl.mj;
 
-import java.util.Scanner;
 import pl.polsl.mj.view.*;
 
 
 /**
  *
  * @author mj300741@student.polsl.pl
- * @version 1.0
+ * @version 1.1
  */
 public class Main {
     /**
@@ -23,9 +22,7 @@ public class Main {
         if (args.length == 0){
             // interactive mode
         } else {
-            for (int i = 0; i < args.length; i++) {
-                System.out.println("parameter " + (i + 1) + ":" + args[i]);
-            }
+            mainView.printCommandArgs(args);
         }
         
 // arabic to roman -a 15

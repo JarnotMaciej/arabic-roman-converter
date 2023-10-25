@@ -2,11 +2,10 @@ package pl.polsl.mj.view;
 
 import java.util.Scanner;
 
-
 /**
  *
  * @author mj300741@student.polsl.pl
- * @version 1.0
+ * @version 1.1
  */
 public class View {    
     /**
@@ -28,5 +27,11 @@ public class View {
         System.out.println("3. Exit");
         int choice = scanner.nextInt();
         return choice;
+    }
+
+    public void printCommandArgs(String[] args) {
+        for (int i = 0; i < args.length; i++) {
+            System.out.println("parameter " + (i + 1) + ":" + args[i]);
+        }
     }
 }
