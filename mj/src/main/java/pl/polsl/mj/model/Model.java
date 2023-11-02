@@ -1,5 +1,10 @@
 package pl.polsl.mj.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * Model class, responsible for converting arabic numbers to roman and vice versa.
  *
@@ -7,6 +12,10 @@ package pl.polsl.mj.model;
  * @version 1.1
  */
 public class Model {
+    private static final List<Integer> ARABIC_VALUES = new ArrayList<>();
+    private static final List<String> ROMAN_NUMERALS = Arrays.asList("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M");
+    
+    
     /**
      * Method for converting arabic numbers to roman.
      *

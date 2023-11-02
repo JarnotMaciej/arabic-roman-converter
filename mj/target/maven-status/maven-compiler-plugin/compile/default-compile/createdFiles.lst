@@ -1,4 +1,5 @@
 pl\polsl\mj\Main.class
-pl\polsl\mj\model\ToRomanConverter.class
-pl\polsl\mj\model\ToArabicConverter.class
+pl\polsl\mj\controller\Controller.class
+pl\polsl\mj\model\Model.class
+pl\polsl\mj\model\ModelException.class
 pl\polsl\mj\view\View.class
