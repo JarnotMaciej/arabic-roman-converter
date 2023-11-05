@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Disabled;
 
 class ModelTest {
 
-    @Disabled("Conversion need to be implemented")
     @ParameterizedTest
     @CsvSource({
             "1, I",
@@ -31,7 +30,6 @@ class ModelTest {
         assertEquals(expectedRoman, model.arabicToRoman(arabic));
     }
 
-    @Disabled("Conversion need to be implemented")
     @ParameterizedTest
     @CsvSource({
             "I, 1",

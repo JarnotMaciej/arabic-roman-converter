@@ -27,8 +27,8 @@ public class Controller {
      */
     public void startInteractiveMode(String[] args) {
         view.welcome();
-        if (args.length == 1) {
-            view.modePerformed(args[0]);
+        if (args.length == 1 && args[0].equals("-help")) {
+            view.help();
         } else {
             int choice = view.menu();
 //            interactiveMode();
@@ -43,6 +43,29 @@ public class Controller {
     public void processCommandArgs(String[] args) {
         String mode = args[0];
         String number = args[1];
-        view.modePerformed(mode);
+//        view.modePerformed(mode);
+        switch (mode) {
+            case "-a":
+                try {
+                    int arabic = Integer.parseInt(number);
+                    String roman = model.arabicToRoman(arabic);
+                    view.displayResult(roman);
+                } catch (NumberFormatException e) {
+                    view.displayError("Invalid arabic number. It must be an integer between 1 and 3999.");
+                } catch (ModelException e) {
+                    view.displayError(e.getMessage());
+                }
+                break;
+            case "-r":
+                try {
+                    int arabic = model.romanToArabic(number);
+                    view.displayResult(arabic);
+                } catch (ModelException e) {
+                    view.displayError(e.getMessage());
+                }
+                break;
+            default:
+                view.displayError("Invalid mode. Please use -a or -r.");
+        }
     }
 }

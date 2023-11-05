@@ -63,31 +63,32 @@ public class View {
         return choice;
     }
 
-    /**
-     * Function used for displaying which mode of program will be performed.
-     * @param flag Flag which is used to determine which mode will be performed.
-     */
-    public void modePerformed(String flag) {
-        switch (flag) {
-            case "-a":
-                System.out.println("Arabic to Roman conversion");
-                break;
-            case "-r":
-                System.out.println("Roman to Arabic conversion");
-                break;
-                case "-help":
-                help();
-                break;
-            default:
-                System.out.println("Invalid first argument, try '-help' for more information how to use this program.");
-                break;
-        }
-    }
 
     /**
      * Displays short help instruction for the program.
      */
     public void help() {
         System.out.println("Help menu.");
+    }
+
+
+    /**
+     * Displaying result
+     * @param roman roman numeral
+     */
+    public void displayResult(String roman) {
+        System.out.println(roman);
+    }
+
+    /**
+     * Displaying result
+     * @param arabic arabic number
+     */
+    public void displayResult(int arabic) {
+        System.out.println(arabic);
+    }
+
+    public void displayError(String s) {
+        System.out.println("Error: " + s);
     }
 }
