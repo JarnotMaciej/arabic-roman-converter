@@ -17,7 +17,7 @@ public class Main {
     public static void main(String[] args) {
         Controller mainController = new Controller();
         if (args.length < 2){
-            mainController.startInteractiveMode();
+            mainController.startInteractiveMode(args);
 
         } else {
             mainController.processCommandArgs(args);

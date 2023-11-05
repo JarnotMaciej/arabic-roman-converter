@@ -23,10 +23,16 @@ public class Controller {
 
     /**
      * Method for starting the interactive mode.
+     * @param args Arguments passed to the program.
      */
-    public void startInteractiveMode() {
+    public void startInteractiveMode(String[] args) {
         view.welcome();
-        int choice = view.menu();
+        if (args.length == 1) {
+            view.modePerformed(args[0]);
+        } else {
+            int choice = view.menu();
+//            interactiveMode();
+        }
         // To implement: logic for each choice.
     }
 
@@ -35,21 +41,8 @@ public class Controller {
      * @param args Arguments passed to the program.
      */
     public void processCommandArgs(String[] args) {
-//        view.printCommandArgs(args);
-        // To implement: logic to process the command line arguments.
-        switch (args[0]) {
-            case "-a":
-                System.out.println("Arabic to Roman conversion");
-                break;
-            case "-r":
-                System.out.println("Roman to Arabic conversion");
-                break;
-            case "help":
-                view.help();
-                break;
-            default:
-                System.out.println("Invalid first argument.");
-                break;
-        }
+        String mode = args[0];
+        String number = args[1];
+        view.modePerformed(mode);
     }
 }

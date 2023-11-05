@@ -14,8 +14,25 @@ public class View {
      * Welcome message
      */
     public void welcome() {
+        displayAsciiArt();
         System.out.println("Hello, welcome to arabic-roman converter application!");
     }
+
+    /**
+     * Displaying ascii art
+     */
+        public void displayAsciiArt() {
+            String asciiArt = """
+                
+                ░█▀█░█▀▄░█▀█░█▀▄░▀█▀░█▀▀░░░░░█▀▄░█▀█░█▄█░█▀█░█▀█░░░█▀▀░█▀█░█▀█░█░█░█▀▀░█▀▄░▀█▀░█▀▀░█▀▄
+                ░█▀█░█▀▄░█▀█░█▀▄░░█░░█░░░▄▄▄░█▀▄░█░█░█░█░█▀█░█░█░░░█░░░█░█░█░█░▀▄▀░█▀▀░█▀▄░░█░░█▀▀░█▀▄
+                ░▀░▀░▀░▀░▀░▀░▀▀░░▀▀▀░▀▀▀░░░░░▀░▀░▀▀▀░▀░▀░▀░▀░▀░▀░░░▀▀▀░▀▀▀░▀░▀░░▀░░▀▀▀░▀░▀░░▀░░▀▀▀░▀░▀
+                
+            """;
+
+            System.out.println(asciiArt);
+        }
+
 
     /**
      * Displaying menu
@@ -47,12 +64,23 @@ public class View {
     }
 
     /**
-     * Function used for debugging, it prints all the arguments passed to the program
-     * @param args Arguments passed to the program.
+     * Function used for displaying which mode of program will be performed.
+     * @param flag Flag which is used to determine which mode will be performed.
      */
-    public void printCommandArgs(String[] args) {
-        for (int i = 0; i < args.length; i++) {
-            System.out.println("parameter " + (i + 1) + ": " + args[i]);
+    public void modePerformed(String flag) {
+        switch (flag) {
+            case "-a":
+                System.out.println("Arabic to Roman conversion");
+                break;
+            case "-r":
+                System.out.println("Roman to Arabic conversion");
+                break;
+                case "-help":
+                help();
+                break;
+            default:
+                System.out.println("Invalid first argument, try '-help' for more information how to use this program.");
+                break;
         }
     }
 
