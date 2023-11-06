@@ -12,10 +12,40 @@ import java.util.List;
  * @version 1.1
  */
 public class Model {
-    private static final List<Integer> ARABIC_VALUES = Arrays.asList(1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000);
-    private static final List<String> ROMAN_NUMERALS = Arrays.asList("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M");
+    private static final List<Integer> ARABIC_VALUES = Arrays.asList(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1);
+    private static final List<String> ROMAN_NUMERALS = Arrays.asList("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I");
 
-    
+    /**
+     * Enum for roman numerals.
+     */
+    private enum RomanNumeral {
+        M(1000), CM(900), D(500), CD(400), C(100), XC(90),
+        L(50), XL(40), X(10), IX(9), V(5), IV(4), I(1);
+
+        /**
+         * Arabic value of a roman numeral.
+         */
+        private final int value;
+
+        /**
+         * Constructor for RomanNumeral enum.
+         *
+         * @param value arabic value of a roman numeral
+         */
+        RomanNumeral(int value) {
+            this.value = value;
+        }
+
+        /**
+         * Getter for arabic value of a roman numeral.
+         *
+         * @return arabic value of a roman numeral
+         */
+        public int getValue() {
+            return value;
+        }
+    }
+
     /**
      * Method for converting arabic numbers to roman.
      *
@@ -29,14 +59,13 @@ public class Model {
         }
 
         StringBuilder roman = new StringBuilder();
-        int i = ARABIC_VALUES.size() - 1;
-        while (arabic > 0) {
-            if (ARABIC_VALUES.get(i) <= arabic) {
+        int i = 0;
+        for (int value : ARABIC_VALUES) {
+            while (arabic >= value) {
+                arabic -= value;
                 roman.append(ROMAN_NUMERALS.get(i));
-                arabic -= ARABIC_VALUES.get(i);
-            } else {
-                i--;
             }
+            i++;
         }
         return roman.toString();
     }
@@ -82,17 +111,8 @@ public class Model {
      * @return arabic value of a roman numeral
      */
     private int getArabicValue(char currentChar) {
-        return switch (currentChar) {
-            case 'I' -> 1;
-            case 'V' -> 5;
-            case 'X' -> 10;
-            case 'L' -> 50;
-            case 'C' -> 100;
-            case 'D' -> 500;
-            case 'M' -> 1000;
-            default -> 0;
-        };
+        RomanNumeral numeral = RomanNumeral.valueOf(String.valueOf(currentChar));
+        return numeral.getValue();
     }
 }
-
 
