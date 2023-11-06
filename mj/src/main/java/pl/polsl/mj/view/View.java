@@ -2,6 +2,7 @@ package pl.polsl.mj.view;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.stream.IntStream;
 
 /**
  * View class, responsible for displaying messages to the user.
@@ -9,7 +10,13 @@ import java.util.Scanner;
  * @author mj300741@student.polsl.pl
  * @version 1.1
  */
-public class View {    
+public class View {
+    static final String[] MENU_OPTIONS = {
+            "Convert arabic number to roman",
+            "Convert roman number to arabic",
+            "Exit"
+    };
+
     /**
      * Welcome message
      */
@@ -43,14 +50,13 @@ public class View {
         int choice = 0;
 
         System.out.println("Please choose one of the following options:");
-        System.out.println("1. Convert arabic number to roman");
-        System.out.println("2. Convert roman number to arabic");
-        System.out.println("3. Exit");
+        IntStream.range(0, MENU_OPTIONS.length)
+                .forEach(i -> System.out.println((i + 1) + ". " + MENU_OPTIONS[i]));
 
         while (true) {
             try {
                 choice = scanner.nextInt();
-                if (choice < 1 || choice > 3) {
+                if (choice < 1 || choice > MENU_OPTIONS.length) {
                     throw new InputMismatchException();
                 }
                 break;
