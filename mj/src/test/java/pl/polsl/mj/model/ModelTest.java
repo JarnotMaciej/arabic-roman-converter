@@ -172,5 +172,30 @@ class ModelTest {
         Model model = new Model();
         assertTrue(model.validateRoman(roman));
     }
+
+    /**
+     * Test of getArabicValue method, of class Model for valid roman numerals.
+     */
+    @Test
+    void testGetArabicValueForValidRomanNumerals() {
+        Model model = new Model();
+
+        assertEquals(1, model.getArabicValue('I'));
+        assertEquals(5, model.getArabicValue('V'));
+        assertEquals(10, model.getArabicValue('X'));
+        assertEquals(50, model.getArabicValue('L'));
+        assertEquals(100, model.getArabicValue('C'));
+        assertEquals(500, model.getArabicValue('D'));
+        assertEquals(1000, model.getArabicValue('M'));
+    }
+
+    /**
+     * Test of getArabicValue method, of class Model for invalid roman numerals.
+     */
+    @Test
+    void testGetArabicValueForInvalidRomanNumeral() {
+        Model model = new Model();
+        assertThrows(IllegalArgumentException.class, () -> model.getArabicValue('Z'));
+    }
 }
 

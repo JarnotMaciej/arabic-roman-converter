@@ -112,7 +112,7 @@ public class Model {
      * @param currentChar current character
      * @return arabic value of a roman numeral
      */
-    private int getArabicValue(char currentChar) {
+    int getArabicValue(char currentChar) {
         RomanNumeral numeral = RomanNumeral.valueOf(String.valueOf(currentChar));
         return numeral.getValue();
     }

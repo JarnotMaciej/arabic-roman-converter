@@ -5,6 +5,7 @@ package pl.polsl.mj;
 
 import pl.polsl.mj.controller.*;
 import pl.polsl.mj.model.ModelException;
+import pl.polsl.mj.view.View;
 
 /**
  * Main class, responsible for running the program.
@@ -13,6 +14,8 @@ import pl.polsl.mj.model.ModelException;
  * @version 1.1
  */
 public class Main {
+    static View view = new View();
+
     /**
      * Main method for getting & writing out the parameters.
      * 
@@ -24,7 +27,11 @@ public class Main {
             mainController.startInteractiveMode(args);
 
         } else {
-            mainController.processCommandArgs(args);
+            try {
+                mainController.processCommandArgs(args);
+            } catch (ModelException e) {
+                view.displayError(e.getMessage());
+            }
         }
     }
 }

@@ -54,7 +54,7 @@ public class Controller {
                         }
                         view.displayError("Invalid arabic number. It must be an integer between 1 and 3999.");
                     }
-                    view.display("Roman numeral: " +model.arabicToRoman(Integer.parseInt(arabicNumeral)));
+                    view.display("Roman numeral: " + model.arabicToRoman(Integer.parseInt(arabicNumeral)));
                     break;
                 case 2:
                     String romanNumeral;
@@ -83,7 +83,7 @@ public class Controller {
      *
      * @param args Arguments passed to the program.
      */
-    public void processCommandArgs(String[] args) {
+    public void processCommandArgs(String[] args) throws ModelException {
         String mode = args[0];
         String number = args[1];
         switch (mode) {
@@ -100,16 +100,10 @@ public class Controller {
                 }
                 break;
             case "-r":
-                try {
-                    if (!model.validate(false, number)) {
-                        throw new ModelException("Invalid roman number. It must be a valid roman numeral.");
-                    }
-                    view.display(model.romanToArabic(number));
-                } catch (NumberFormatException e) {
-                    view.displayError("Invalid roman number. It must be a valid roman numeral.");
-                } catch (ModelException e) {
-                    view.displayError(e.getMessage());
+                if (!model.validate(false, number)) {
+                    throw new ModelException("Invalid roman number. It must be a valid roman numeral.");
                 }
+                view.display(model.romanToArabic(number));
                 break;
             default:
                 view.displayError("Invalid mode. Please use -a or -r.");
