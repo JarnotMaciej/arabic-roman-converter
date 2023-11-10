@@ -4,6 +4,7 @@
 package pl.polsl.mj;
 
 import pl.polsl.mj.controller.*;
+import pl.polsl.mj.model.ModelException;
 
 /**
  * Main class, responsible for running the program.
@@ -17,7 +18,7 @@ public class Main {
      * 
      * @param args program call parameters
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ModelException {
         Controller mainController = new Controller();
         if (args.length < 2){
             mainController.startInteractiveMode(args);

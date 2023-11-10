@@ -64,10 +64,6 @@ public class Model {
      * @throws ModelException when arabic number is invalid
      */
     public String arabicToRoman(int arabic) throws ModelException {
-        if (arabic < 1 || arabic > 3999) {
-            throw new ModelException("Invalid arabic number. It must be between 1 and 3999.");
-        }
-
         StringBuilder roman = new StringBuilder();
         int i = 0;
         for (int value : ARABIC_VALUES) {
@@ -88,10 +84,6 @@ public class Model {
      * @throws ModelException when roman numeral is invalid
      */
     public int romanToArabic(String roman) throws ModelException {
-        if (roman == null || roman.isEmpty()) {
-            throw new ModelException("Invalid roman numeral. It must not be null or empty.");
-        }
-
         int arabic = 0;
 
         for (int i = 0; i < roman.length(); i++) {
@@ -132,7 +124,34 @@ public class Model {
      * @return true if roman numeral is valid, false otherwise
      */
     public boolean validateRoman(String roman) {
-        return roman.matches("^(?=[MDCLXVI])M*(C[MD]|D?C{0,3})(X[CL]|L?X{0,3})(I[XV]|V?I{0,3})$");
+        if (roman == null || roman.trim().isEmpty()) return false;
+        return roman.matches("^(M{0,3})(C(?:D|M)|D?C{0,3})(X(?:L|C)|L?X{0,3})(I(?:V|X)|V?I{0,3})$");
+    }
+
+    /**
+     * Method use for arabic number validation.
+     *
+     * @param input arabic number to be validated
+     * @return true if arabic number is valid, false otherwise
+     */
+    public boolean validateArabic(String input) {
+        int arabic;
+        try {
+            arabic = Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return arabic >= 1 && arabic <= 3999;
+    }
+
+    /**
+     * Validation method.
+     *
+     * @param arabicFlag - flag which indicates if the number is arabic or roman (true - arabic, false - roman)
+     * @param number - number to be validated
+     * @return true if number is valid, false otherwise
+     */
+    public boolean validate(boolean arabicFlag, String number) {
+        return arabicFlag ? validateArabic(number) : validateRoman(number);
     }
 }
-

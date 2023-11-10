@@ -54,24 +54,31 @@ public class View {
     public int menu() throws InputMismatchException {
         Scanner scanner = new Scanner(System.in);
         int choice = 0;
+        String input;
 
         System.out.println("Please choose one of the following options:");
         IntStream.range(0, MENU_OPTIONS.length)
                 .forEach(i -> System.out.println((i + 1) + ". " + MENU_OPTIONS[i]));
 
         while (true) {
+            input = scanner.next();
+
             try {
-                choice = scanner.nextInt();
-                if (choice < 1 || choice > MENU_OPTIONS.length) {
-                    throw new InputMismatchException();
-                }
-                break;
-            } catch (Exception e) {
+                choice = Integer.parseInt(input);
+            } catch (NumberFormatException e) {
                 System.out.println("Invalid input, please try again.");
                 scanner.nextLine();
+                continue;
             }
+
+            if (choice < 1 || choice > MENU_OPTIONS.length) {
+                System.out.println("Invalid input, please try again.");
+                scanner.nextLine();
+            } else {
+                break;
+            }
+
         }
-        // TODO: do not throw and catch the same exception in the same method!!!
 
         return choice;
     }
@@ -86,22 +93,27 @@ public class View {
 
 
     /**
-     * Displaying result
-     * @param roman roman numeral
+     * Method for displaying text.
+     * @param input Content to be displayed.
      */
-    public void displayResult(String roman) {
-        System.out.println(roman);
+    public void display(Object input) {
+        System.out.println(input);
     }
 
     /**
-     * Displaying result
-     * @param arabic arabic number
+     * Displaying error
+     * @param s error message
      */
-    public void displayResult(int arabic) {
-        System.out.println(arabic);
-    }
-
     public void displayError(String s) {
         System.out.println("Error: " + s);
+    }
+
+    /**
+     * Getting input from user
+     * @return
+     */
+    public String getInput() {
+        Scanner scanner = new Scanner(System.in);
+        return scanner.next();
     }
 }
