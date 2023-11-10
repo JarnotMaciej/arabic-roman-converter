@@ -1,6 +1,3 @@
-/**
- * Model package - responsible for converting arabic numbers to roman and vice versa.
- */
 package pl.polsl.mj.model;
 
 import java.util.Arrays;
@@ -27,7 +24,7 @@ public class Model {
      */
     private enum RomanNumeral {
         /**
-         * Roman numerals.
+         * @see RomanNumeral
          */
         M(1000), CM(900), D(500), CD(400), C(100), XC(90),
         L(50), XL(40), X(10), IX(9), V(5), IV(4), I(1);

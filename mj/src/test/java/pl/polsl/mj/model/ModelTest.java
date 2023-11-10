@@ -108,6 +108,8 @@ class ModelTest {
 
     /**
      * Test of validate method, of class Model for roman numerals. Invalid input is expected.
+     *
+     * @param roman Roman numeral to be validated
      */
     @ParameterizedTest
     @CsvSource({
@@ -149,6 +151,8 @@ class ModelTest {
 
     /**
      * Test of validate method, of class Model for roman numerals. Valid input is expected.
+     *
+     * @param roman Roman numeral to be validated
      */
     @ParameterizedTest
     @CsvSource({

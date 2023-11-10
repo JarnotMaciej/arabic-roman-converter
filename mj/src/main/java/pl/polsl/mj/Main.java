@@ -1,6 +1,3 @@
-/**
- * Main package, responsible for running the program.
- */
 package pl.polsl.mj;
 
 import pl.polsl.mj.controller.*;
@@ -14,12 +11,16 @@ import pl.polsl.mj.view.View;
  * @version 1.1
  */
 public class Main {
+    /**
+     * View object for displaying messages to the user.
+     */
     static View view = new View();
 
     /**
-     * Main method for getting & writing out the parameters.
+     * Main method for getting and writing out the parameters.
      * 
      * @param args program call parameters
+     * @throws ModelException Exception thrown when the user enters an invalid number.
      */
     public static void main(String[] args) throws ModelException {
         Controller mainController = new Controller();

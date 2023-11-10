@@ -1,6 +1,3 @@
-/**
- * Controller package, responsible for handling user input and program logic.
- */
 package pl.polsl.mj.controller;
 
 import pl.polsl.mj.model.Model;
@@ -36,6 +33,7 @@ public class Controller {
      * Method for starting the interactive mode.
      *
      * @param args Arguments passed to the program.
+     * @throws ModelException Exception thrown when the user enters an invalid number.
      */
     public void startInteractiveMode(String[] args) throws ModelException {
         view.welcome();
@@ -82,6 +80,7 @@ public class Controller {
      * Method for processing command line arguments.
      *
      * @param args Arguments passed to the program.
+     * @throws ModelException Exception thrown when the user enters an invalid number.
      */
     public void processCommandArgs(String[] args) throws ModelException {
         String mode = args[0];

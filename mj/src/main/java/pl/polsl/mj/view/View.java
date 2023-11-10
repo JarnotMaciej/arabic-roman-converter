@@ -1,6 +1,3 @@
-/**
- * View package - responsible for displaying messages to the user.
- */
 package pl.polsl.mj.view;
 
 import java.util.InputMismatchException;
@@ -110,7 +107,7 @@ public class View {
 
     /**
      * Getting input from user
-     * @return
+     * @return input from user
      */
     public String getInput() {
         Scanner scanner = new Scanner(System.in);
