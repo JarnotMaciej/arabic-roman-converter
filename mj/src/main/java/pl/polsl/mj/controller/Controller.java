@@ -1,3 +1,6 @@
+/**
+ * Controller package, responsible for handling user input and program logic.
+ */
 package pl.polsl.mj.controller;
 
 import pl.polsl.mj.view.*;
@@ -10,7 +13,14 @@ import pl.polsl.mj.model.*;
  * @version 1.1
  */
 public class Controller {
+    /**
+     * Model object for converting arabic numbers to roman and vice versa.
+     */
     private Model model;
+
+    /**
+     * View object for displaying messages to the user.
+     */
     private View view;
 
     /**

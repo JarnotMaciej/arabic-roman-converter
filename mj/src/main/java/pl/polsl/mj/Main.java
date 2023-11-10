@@ -1,3 +1,6 @@
+/**
+ * Main package, responsible for running the program.
+ */
 package pl.polsl.mj;
 
 import pl.polsl.mj.controller.*;

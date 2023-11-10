@@ -1,3 +1,6 @@
+/**
+ * View package - responsible for displaying messages to the user.
+ */
 package pl.polsl.mj.view;
 
 import java.util.InputMismatchException;
@@ -11,6 +14,9 @@ import java.util.stream.IntStream;
  * @version 1.1
  */
 public class View {
+    /**
+     * Menu options.
+     */
     static final String[] MENU_OPTIONS = {
             "Convert arabic number to roman",
             "Convert roman number to arabic",
@@ -65,6 +71,7 @@ public class View {
                 scanner.nextLine();
             }
         }
+        // TODO: do not throw and catch the same exception in the same method!!!
 
         return choice;
     }
