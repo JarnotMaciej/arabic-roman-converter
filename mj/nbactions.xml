@@ -52,4 +52,17 @@
                 <exec.appArgs>-a 2012</exec.appArgs>
             </properties>
         </action>
+        <action>
+            <actionName>javadoc</actionName>
+            <packagings>
+                <packaging>*</packaging>
+            </packagings>
+            <goals>
+                <goal>generate-sources</goal>
+                <goal>javadoc:javadoc</goal>
+            </goals>
+            <properties>
+                <show>private</show>
+            </properties>
+        </action>
     </actions>

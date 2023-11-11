@@ -1,5 +1,5 @@
 pl\polsl\mj\Main.class
-pl\polsl\mj\controller\Controller.class
+pl\polsl\mj\Main$1.class
 pl\polsl\mj\model\Model.class
 pl\polsl\mj\model\ModelException.class
 pl\polsl\mj\view\View.class
