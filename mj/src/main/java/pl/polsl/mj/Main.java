@@ -11,6 +11,7 @@ import pl.polsl.mj.view.*;
  */
 public class Main {
 
+
 /**
  * Method responsible for creating and showing GUI.
  */
