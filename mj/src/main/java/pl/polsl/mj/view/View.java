@@ -78,4 +78,13 @@ public View() {
         // Handle button click event
         // TODO: implementation
     }
+
+    /**
+     * Getting input from user
+     * @return input from user
+     */
+    public String getInput() {
+        Scanner scanner = new Scanner(System.in);
+        return scanner.next();
+    }
 }

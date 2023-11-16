@@ -1,5 +1,6 @@
 package pl.polsl.mj.model;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import static org.junit.jupiter.api.Assertions.*;
@@ -72,53 +73,133 @@ class ModelTest {
     }
 
     /**
-     * Test of arabicToRoman method, of class Model.
-     * @param input Arabic number to be converted
-     * @param expectedMessage Expected exception message
+     * Test of validate method, of class Model for arabic numbers. Valid input is expected.
      */
-    @Disabled // TODO: fix border cases in romanToArabic
-    @ParameterizedTest
-    @CsvSource({
-            "0, Invalid arabic number. It must be between 1 and 3999.",
-            "4000, Invalid arabic number. It must be between 1 and 3999.",
-            "-1, Invalid arabic number. It must be between 1 and 3999.",
-            "MMMM, Invalid roman number. It must be between I and MMMCMXCIX.",
-            "MMMMCMXCIX, Invalid roman number. It must be between I and MMMCMXCIX.",
-            "MMMMCMXCIXI, Invalid roman number. It must be between I and MMMCMXCIX.",
-            "MMMMCMXCIXII, Invalid roman number. It must be between I and MMMCMXCIX.",
-            "MMMMCMXCIXIV, Invalid roman number. It must be between I and MMMCMXCIX.",
-            "MMMMCMXCIXV, Invalid roman number. It must be between I and MMMCMXCIX."
-    })
-    void testOutOfRange(int input, String expectedMessage) {
+    @Test
+    void testValidateArabicValidInput() {
         Model model = new Model();
-        ModelException exception = assertThrows(ModelException.class, () -> model.arabicToRoman(input));
-        assertEquals(expectedMessage, exception.getMessage());
+
+        assertTrue(model.validateArabic("1"));
+        assertTrue(model.validateArabic("4"));
+        assertTrue(model.validateArabic("9"));
+        assertTrue(model.validateArabic("12"));
+        assertTrue(model.validateArabic("3999"));
+        assertTrue(model.validateArabic("1000"));
+        assertTrue(model.validateArabic("900"));
+        assertTrue(model.validateArabic("500"));
+        assertTrue(model.validateArabic("50"));
+        assertTrue(model.validateArabic("40"));
     }
 
+    /**
+     * Test of validate method, of class Model for arabic numbers. Invalid input is expected.
+     */
+    @Test
+    void testValidateArabicInvalidInput() {
+        Model model = new Model();
+
+        assertFalse(model.validateArabic("0"));
+        assertFalse(model.validateArabic("-10"));
+        assertFalse(model.validateArabic("4000"));
+        assertFalse(model.validateArabic("invalid"));
+        assertFalse(model.validateArabic(""));
+        assertFalse(model.validateArabic("   "));
+    }
 
     /**
-     * Test of romanToArabic method, of class Model.
-     * @param input Roman numeral to be converted
-     * @param expectedMessage Expected exception message
+     * Test of validate method, of class Model for roman numerals. Invalid input is expected.
+     *
+     * @param roman Roman numeral to be validated
      */
-    @Disabled // TODO: create roman number validation
     @ParameterizedTest
     @CsvSource({
-            "IIII, Invalid roman number. It must be between I and MMMCMXCIX.",
-            "XXXX, Invalid roman number. It must be between I and MMMCMXCIX.",
-            "IIX, Invalid roman number. It must be between I and MMMCMXCIX.",
-            "VV, Invalid roman number. It must be between I and MMMCMXCIX.",
-            "IL, Invalid roman number. It must be between I and MMMCMXCIX.",
-            "IC, Invalid roman number. It must be between I and MMMCMXCIX.",
-            "VX, Invalid roman number. It must be between I and MMMCMXCIX.",
-            "VL, Invalid roman number. It must be between I and MMMCMXCIX.",
-            "XD, Invalid roman number. It must be between I and MMMCMXCIX.",
-            "XM, Invalid roman number. It must be between I and MMMCMXCIX."
+            "IIII",
+            "XXXX",
+            "CCCC",
+            "MMMM",
+            "VV",
+            "LL",
+            "DD",
+            "IL",
+            "IC",
+            "ID",
+            "IM",
+            "XD",
+            "XM",
+            "LC",
+            "LD",
+            "LM",
+            "DM",
+            "invalid",
+            "QWERTY",
     })
-    void testInvalidRoman(String input, String expectedMessage) {
+    void testValidateRomanInvalidInput(String roman) {
         Model model = new Model();
-        ModelException exception = assertThrows(ModelException.class, () -> model.romanToArabic(input));
-        assertEquals(expectedMessage, exception.getMessage());
+        assertFalse(model.validateRoman(roman));
+    }
+
+    /**
+     * Testing empty string, null and whitespace string.
+     */
+    @Test
+    void testValidateRomanEmptyString() {
+        Model model = new Model();
+        assertFalse(model.validateRoman(""));
+        assertFalse(model.validateRoman("   "));
+        assertFalse(model.validateRoman(null));
+    }
+
+    /**
+     * Test of validate method, of class Model for roman numerals. Valid input is expected.
+     *
+     * @param roman Roman numeral to be validated
+     */
+    @ParameterizedTest
+    @CsvSource({
+            "I",
+            "IV",
+            "IX",
+            "XII",
+            "XIV",
+            "XX",
+            "XL",
+            "L",
+            "XC",
+            "C",
+            "CD",
+            "D",
+            "CM",
+            "M",
+            "MMMCMXCIX"
+    })
+    void testValidateRomanValidInput(String roman) {
+        Model model = new Model();
+        assertTrue(model.validateRoman(roman));
+    }
+
+    /**
+     * Test of getArabicValue method, of class Model for valid roman numerals.
+     */
+    @Test
+    void testGetArabicValueForValidRomanNumerals() {
+        Model model = new Model();
+
+        assertEquals(1, model.getArabicValue('I'));
+        assertEquals(5, model.getArabicValue('V'));
+        assertEquals(10, model.getArabicValue('X'));
+        assertEquals(50, model.getArabicValue('L'));
+        assertEquals(100, model.getArabicValue('C'));
+        assertEquals(500, model.getArabicValue('D'));
+        assertEquals(1000, model.getArabicValue('M'));
+    }
+
+    /**
+     * Test of getArabicValue method, of class Model for invalid roman numerals.
+     */
+    @Test
+    void testGetArabicValueForInvalidRomanNumeral() {
+        Model model = new Model();
+        assertThrows(IllegalArgumentException.class, () -> model.getArabicValue('Z'));
     }
 }
 
