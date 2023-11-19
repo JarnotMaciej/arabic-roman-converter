@@ -4,9 +4,15 @@ import pl.polsl.mj.model.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 import javax.swing.*;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableModel;
 
 /**
  * View class, responsible for displaying GUI to the user.
@@ -19,6 +25,11 @@ public class View extends JPanel implements ActionListener {
      * Model object.
      */
     Model model = new Model();
+
+    /**
+     * Conversion table.
+     */
+    JTable table = new JTable(new MyTableModel());
 
     /**
      * App icon.
@@ -39,9 +50,10 @@ public class View extends JPanel implements ActionListener {
     public View() {
         super(new GridLayout(1, 1));
         JTabbedPane tabbedPane = new JTabbedPane();
-        ImageIcon arabic = createImageIcon("/images/arabic.png");
-        ImageIcon roman = createImageIcon("/images/roman.png");
-        appIcon = createImageIcon("/images/app.png");
+        ImageIcon arabic = createImageIcon("/icons/arabic.png");
+        ImageIcon roman = createImageIcon("/icons/roman.png");
+        ImageIcon history = createImageIcon("/icons/history.png");
+        appIcon = createImageIcon("/icons/app.png");
 
         JComponent arabicPanel = makeArabicPanel();
         tabbedPane.addTab("Arabic", arabic, arabicPanel,
@@ -53,7 +65,26 @@ public class View extends JPanel implements ActionListener {
                 "Roman to Arabic");
         tabbedPane.setMnemonicAt(1, 2);
 
+        JComponent historyPanel = makeHistoryPanel();
+        tabbedPane.addTab("History", history, historyPanel,
+                "History of conversions");
+        tabbedPane.setMnemonicAt(2, 3);
+
         add(tabbedPane);
+    }
+
+    /**
+     * Method responsible for creating panel with history of conversions - array of strings.
+     * @return JComponent object with history of conversions
+     */
+    private JComponent makeHistoryPanel() {
+        JPanel panel = new JPanel(false);
+        table.setPreferredScrollableViewportSize(new Dimension(400, 200));
+        JScrollPane scrollPane = new JScrollPane(table);
+        panel.add(scrollPane);
+        panel.setPreferredSize(new Dimension(400, 200));
+        ((MyTableModel) table.getModel()).update();
+        return panel;
     }
 
     /**
@@ -63,6 +94,7 @@ public class View extends JPanel implements ActionListener {
     private JComponent makeRomanPanel() {
         JPanel panel = new JPanel(false);
         JLabel label = new JLabel("Enter Roman numeral:");
+        label.setHorizontalAlignment(JLabel.LEFT);
         JTextField textField = new JTextField(10);
         JButton button = new JButton("Convert");
         button.addActionListener(new ActionListener() {
@@ -78,6 +110,7 @@ public class View extends JPanel implements ActionListener {
 
                         // Display the result or perform any desired action
                         JOptionPane.showMessageDialog(null, "Arabic number: " + arabicNumber, "Conversion Result", JOptionPane.INFORMATION_MESSAGE);
+                        ((MyTableModel) table.getModel()).update();
                     } catch (ModelException ex) {
                         // Handle exception, e.g., invalid input
                         JOptionPane.showMessageDialog(null, "Invalid Roman numeral", "Error", JOptionPane.ERROR_MESSAGE);
@@ -92,6 +125,7 @@ public class View extends JPanel implements ActionListener {
         panel.add(label);
         panel.add(textField);
         panel.add(button);
+        panel.setPreferredSize(new Dimension(400, 200));
         return panel;
     }
 
@@ -119,6 +153,8 @@ public class View extends JPanel implements ActionListener {
 
                         // Display the result or perform any desired action
                         JOptionPane.showMessageDialog(null, "Roman Numeral: " + romanNumeral, "Conversion Result", JOptionPane.INFORMATION_MESSAGE);
+                        ((MyTableModel) table.getModel()).update();
+
                     } catch (NumberFormatException | ModelException ex) {
                         // Handle exception, e.g., invalid input
                         JOptionPane.showMessageDialog(null, "Invalid Arabic number", "Error", JOptionPane.ERROR_MESSAGE);
@@ -133,6 +169,7 @@ public class View extends JPanel implements ActionListener {
         panel.add(label);
         panel.add(textField);
         panel.add(button);
+        panel.setPreferredSize(new Dimension(400, 200));
         return panel;
     }
 
@@ -162,17 +199,86 @@ public class View extends JPanel implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        // Handle button click event
-        // TODO: implementation
+        // TODO
     }
 
     /**
-     * Getting input from user
-     *
-     * @return input from user
+     * Private class for table model.
      */
-    public String getInput() {
-        Scanner scanner = new Scanner(System.in);
-        return scanner.next();
+    private class MyTableModel extends AbstractTableModel {
+        /**
+         * Array of strings with column names.
+         */
+        private String[] columnNames = {"Conversion type", "Input", "Result", "Date"};
+
+        /**
+         * Array of strings with data.
+         */
+        private List<ConversionData> data = new ArrayList<>();
+
+        /**
+         * Method used for updating values from model.
+         */
+        public void update() {
+            fireTableDataChanged();
+            data = model.getHistory();
+        }
+
+        /**
+         * Getter for row count.
+         * @return row count
+         */
+        @Override
+        public int getRowCount() {
+            try {
+                return data.size();
+            } catch (NullPointerException e) {
+                return 0;
+            }
+        }
+
+        /**
+         * Getter for column count.
+         * @return column count
+         */
+        @Override
+        public int getColumnCount() {
+            return columnNames.length;
+        }
+
+        /**
+         * Method for getting column content.
+         * @param rowIndex the row whose value is to be queried
+         * @param columnIndex the column whose value is to be queried
+         * @return the value Object at the specified cell
+         */
+        @Override
+        public Object getValueAt(int rowIndex, int columnIndex) {
+            ConversionData conversionData = data.get(rowIndex);
+
+            switch (columnIndex) {
+                case 0:
+                    return conversionData.getConversionType();
+                case 1:
+                    return conversionData.getInput();
+                case 2:
+                    return conversionData.getResult();
+                case 3:
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+                    return dateFormat.format(conversionData.getDate());
+                default:
+                    return null; // Handle other cases if necessary
+            }
+        }
+
+        /**
+         * Method for getting column name.
+         * @param columnIndex the column whose value is to be queried
+         * @return the name of columnName
+         */
+        @Override
+        public String getColumnName(int columnIndex) {
+            return columnNames[columnIndex];
+        }
     }
 }

@@ -1,6 +1,8 @@
 package pl.polsl.mj.model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -18,6 +20,11 @@ public class Model {
      * List of roman numerals.
      */
     private static final List<String> ROMAN_NUMERALS = Arrays.asList("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I");
+
+    /**
+     * List of conversion data.
+     */
+    private List<ConversionData> history;
 
     /**
      * Enum for roman numerals.
@@ -54,6 +61,23 @@ public class Model {
     }
 
     /**
+     * Constructor for Model class.
+     * Initializes the history list.
+     */
+    public Model() {
+        this.history = new ArrayList<>();
+    }
+
+    /**
+     * Getter for history.
+     *
+     * @return history
+     */
+    public List<ConversionData> getHistory() {
+        return history;
+    }
+
+    /**
      * Method for converting arabic numbers to roman.
      *
      * @param arabic arabic number to be converted
@@ -62,6 +86,7 @@ public class Model {
      */
     public String arabicToRoman(int arabic) throws ModelException {
         StringBuilder roman = new StringBuilder();
+        String tmpArabic = "" + arabic;
         int i = 0;
         for (int value : ARABIC_VALUES) {
             while (arabic >= value) {
@@ -70,6 +95,7 @@ public class Model {
             }
             i++;
         }
+        history.add(new ConversionData("Arabic to Roman", tmpArabic, roman.toString(), getDate()));
         return roman.toString();
     }
 
@@ -100,7 +126,17 @@ public class Model {
             }
         }
 
+        history.add(new ConversionData("Roman to Arabic", roman, "" + arabic, getDate()));
         return arabic;
+    }
+
+    /**
+     * Method for getting current date.
+     *
+     * @return current date
+     */
+    private Date getDate() {
+        return new Date();
     }
 
     /**
