@@ -24,7 +24,7 @@ public class Model {
     /**
      * List of conversion data.
      */
-    private List<ConversionData> history;
+    private final List<ConversionData> history;
 
     /**
      * Enum for roman numerals.

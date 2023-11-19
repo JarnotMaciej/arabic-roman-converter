@@ -1,18 +1,17 @@
 package pl.polsl.mj.view;
 
-import pl.polsl.mj.model.*;
+import pl.polsl.mj.model.ConversionData;
+import pl.polsl.mj.model.Model;
+import pl.polsl.mj.model.ModelException;
+
+import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.List;
-import java.util.Scanner;
-import javax.swing.*;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableModel;
 
 /**
  * View class, responsible for displaying GUI to the user.
@@ -209,7 +208,7 @@ public class View extends JPanel implements ActionListener {
         /**
          * Array of strings with column names.
          */
-        private String[] columnNames = {"Conversion type", "Input", "Result", "Date"};
+        private final String[] columnNames = {"Conversion type", "Input", "Result", "Date"};
 
         /**
          * Array of strings with data.

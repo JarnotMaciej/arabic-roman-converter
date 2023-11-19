@@ -39,7 +39,6 @@ public class ConversionData {
         this.input = input;
         this.result = result;
         this.date = date;
-        System.out.println("ConversionData constructor: " + conversionType + " " + input + " " + result + " " + date);
     }
 
     /**

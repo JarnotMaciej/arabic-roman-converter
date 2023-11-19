@@ -1,10 +1,9 @@
 package pl.polsl.mj;
 
+import pl.polsl.mj.view.View;
+
 import javax.swing.*;
-
-import pl.polsl.mj.view.*;
-
-import static javax.swing.UIManager.*;
+import static javax.swing.UIManager.setLookAndFeel;
 
 /**
  * Main class, responsible for running the program.
@@ -57,5 +56,5 @@ public class Main {
 //- GUI application based on Swing, including:
 //        - [x] an advanced container (tabbed pane, split pane),
 //        - [x] message box (JOptionPane for Swing) to indicate validation errors or information messages,
-//        - [ ] table to store the history of performed operations,
-//        - [ ] menu
+//        - [x] table to store the history of performed operations,
+//        - [ ] menu -> read some stuff
