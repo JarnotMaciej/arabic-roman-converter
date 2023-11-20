@@ -17,7 +17,7 @@ import java.util.List;
  * View class, responsible for displaying GUI to the user.
  *
  * @author mj300741@student.polsl.pl
- * @version 1.1
+ * @version 1.3
  */
 public class View extends JPanel implements ActionListener {
     /**
@@ -96,28 +96,20 @@ public class View extends JPanel implements ActionListener {
         label.setHorizontalAlignment(JLabel.LEFT);
         JTextField textField = new JTextField(10);
         JButton button = new JButton("Convert");
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String input = textField.getText();
+        button.addActionListener(e -> {
+            String input = textField.getText();
 
-                // Validate the input as Roman numeral
-                if (model.validateRoman(input)) {
-                    try {
-                        // Convert Roman to Arabic using the model method
-                        int arabicNumber = model.romanToArabic(input);
+            if (model.validateRoman(input)) {
+                try {
+                    int arabicNumber = model.romanToArabic(input);
 
-                        // Display the result or perform any desired action
-                        JOptionPane.showMessageDialog(null, "Arabic number: " + arabicNumber, "Conversion Result", JOptionPane.INFORMATION_MESSAGE);
-                        ((MyTableModel) table.getModel()).update();
-                    } catch (ModelException ex) {
-                        // Handle exception, e.g., invalid input
-                        JOptionPane.showMessageDialog(null, "Invalid Roman numeral", "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                } else {
-                    // Handle invalid input
-                    JOptionPane.showMessageDialog(null, "Invalid Roman numeral", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Arabic number: " + arabicNumber, "Conversion Result", JOptionPane.INFORMATION_MESSAGE);
+                    ((MyTableModel) table.getModel()).update();
+                } catch (ModelException ex) {
+                    JOptionPane.showMessageDialog(null, "Program accepts only valid roman numerals", "Invalid Roman numeral!", JOptionPane.ERROR_MESSAGE);
                 }
+            } else {
+                JOptionPane.showMessageDialog(null, "Program accepts only valid roman numerals", "Invalid Roman numeral!", JOptionPane.ERROR_MESSAGE);
             }
         });
 
@@ -137,31 +129,23 @@ public class View extends JPanel implements ActionListener {
         JLabel label = new JLabel("Enter Arabic number:");
         JTextField textField = new JTextField(10);
         JButton button = new JButton("Convert");
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String input = textField.getText();
+        button.addActionListener(e -> {
+            String input = textField.getText();
 
-                // Validate the input as Arabic number
-                if (model.validateArabic(input)) {
-                    try {
-                        int arabicNumber = Integer.parseInt(input);
+            if (model.validateArabic(input)) {
+                try {
+                    int arabicNumber = Integer.parseInt(input);
 
-                        // Convert Arabic to Roman using the model method
-                        String romanNumeral = model.arabicToRoman(arabicNumber);
+                    String romanNumeral = model.arabicToRoman(arabicNumber);
 
-                        // Display the result or perform any desired action
-                        JOptionPane.showMessageDialog(null, "Roman Numeral: " + romanNumeral, "Conversion Result", JOptionPane.INFORMATION_MESSAGE);
-                        ((MyTableModel) table.getModel()).update();
+                    JOptionPane.showMessageDialog(null, "Roman Numeral: " + romanNumeral, "Conversion Result", JOptionPane.INFORMATION_MESSAGE);
+                    ((MyTableModel) table.getModel()).update();
 
-                    } catch (NumberFormatException | ModelException ex) {
-                        // Handle exception, e.g., invalid input
-                        JOptionPane.showMessageDialog(null, "Invalid Arabic number", "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                } else {
-                    // Handle invalid input
-                    JOptionPane.showMessageDialog(null, "Invalid Arabic number", "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (NumberFormatException | ModelException ex) {
+                JOptionPane.showMessageDialog(null, "Program accepts only valid arabic numbers (from 1 to 3999)", "Invalid Arabic number!", JOptionPane.ERROR_MESSAGE);
                 }
+            } else {
+                JOptionPane.showMessageDialog(null, "Program accepts only valid arabic numbers (from 1 to 3999)", "Invalid Arabic number!", JOptionPane.ERROR_MESSAGE);
             }
         });
 
@@ -182,8 +166,8 @@ public class View extends JPanel implements ActionListener {
         if (imgURL != null) {
             ImageIcon icon = new ImageIcon(imgURL);
             Image image = icon.getImage();
-            Image newimg = image.getScaledInstance(30, 30, Image.SCALE_AREA_AVERAGING);
-            icon = new ImageIcon(newimg);
+            Image newImg = image.getScaledInstance(30, 30, Image.SCALE_AREA_AVERAGING);
+            icon = new ImageIcon(newImg);
 
             return icon;
         } else {
@@ -198,7 +182,7 @@ public class View extends JPanel implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO
+        //
     }
 
     /**
@@ -255,19 +239,16 @@ public class View extends JPanel implements ActionListener {
         public Object getValueAt(int rowIndex, int columnIndex) {
             ConversionData conversionData = data.get(rowIndex);
 
-            switch (columnIndex) {
-                case 0:
-                    return conversionData.getConversionType();
-                case 1:
-                    return conversionData.getInput();
-                case 2:
-                    return conversionData.getResult();
-                case 3:
+            return switch (columnIndex) {
+                case 0 -> conversionData.getConversionType();
+                case 1 -> conversionData.getInput();
+                case 2 -> conversionData.getResult();
+                case 3 -> {
                     SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-                    return dateFormat.format(conversionData.getDate());
-                default:
-                    return null; // Handle other cases if necessary
-            }
+                    yield dateFormat.format(conversionData.getDate());
+                }
+                default -> null;
+            };
         }
 
         /**

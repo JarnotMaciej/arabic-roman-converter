@@ -1,6 +1,6 @@
 package pl.polsl.mj;
 
-import pl.polsl.mj.view.View;
+import pl.polsl.mj.view.*;
 
 import javax.swing.*;
 import static javax.swing.UIManager.setLookAndFeel;
@@ -9,11 +9,9 @@ import static javax.swing.UIManager.setLookAndFeel;
  * Main class, responsible for running the program.
  *
  * @author mj300741@student.polsl.pl
- * @version 1.1
+ * @version 1.3
  */
 public class Main {
-
-
 /**
  * Method responsible for creating and showing GUI.
  */
@@ -27,6 +25,7 @@ public class Main {
         frame.setContentPane(newContentPane);
         frame.setIconImage(newContentPane.getAppIcon().getImage());
 
+        frame.setJMenuBar(new MenuBar());
         frame.pack();
         frame.setVisible(true);
     }
@@ -38,23 +37,10 @@ public class Main {
     public static void main(String[] args) {
         try {
             setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-//            setLookAndFeel(getSystemLookAndFeelClassName());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                createAndShowGUI();
-            }
-        });
+        javax.swing.SwingUtilities.invokeLater(Main::createAndShowGUI);
     }
 }
-
-// TODO:
-//- GUI application based on Swing, including:
-//        - [x] an advanced container (tabbed pane, split pane),
-//        - [x] message box (JOptionPane for Swing) to indicate validation errors or information messages,
-//        - [x] table to store the history of performed operations,
-//        - [ ] menu -> read some stuff

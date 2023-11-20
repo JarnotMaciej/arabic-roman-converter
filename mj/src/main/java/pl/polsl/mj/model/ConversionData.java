@@ -3,28 +3,28 @@ package pl.polsl.mj.model;
 import java.util.Date;
 
 /**
- * Main class, responsible for running the program.
+ * ConversionData class, responsible for storing conversion data.
  *
  * @author mj300741@student.polsl.pl
- * @version 1.1
+ * @version 1.3
  */
 public class ConversionData {
     /**
      * Conversion type.
      */
-    private String conversionType;
+    private final String conversionType;
     /**
      * Input.
      */
-    private String input;
+    private final String input;
     /**
      * Output/result.
      */
-    private String result;
+    private final String result;
     /**
      * Date of conversion.
      */
-    private Date date;
+    private final Date date;
 
     /**
      * Constructor of the ConversionData class.
@@ -51,30 +51,12 @@ public class ConversionData {
     }
 
     /**
-     * Setter for conversion type.
-     *
-     * @param conversionType conversion type
-     */
-    public void setConversionType(String conversionType) {
-        this.conversionType = conversionType;
-    }
-
-    /**
      * Getter for input.
      *
      * @return input
      */
     public String getInput() {
         return input;
-    }
-
-    /**
-     * Setter for input.
-     *
-     * @param input input
-     */
-    public void setInput(String input) {
-        this.input = input;
     }
 
     /**
@@ -87,15 +69,6 @@ public class ConversionData {
     }
 
     /**
-     * Setter for result.
-     *
-     * @param result result
-     */
-    public void setResult(String result) {
-        this.result = result;
-    }
-
-    /**
      * Getter for date.
      *
      * @return date
@@ -104,12 +77,4 @@ public class ConversionData {
         return date;
     }
 
-    /**
-     * Setter for date.
-     *
-     * @param date date
-     */
-    public void setDate(Date date) {
-        this.date = date;
-    }
 }
