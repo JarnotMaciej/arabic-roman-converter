@@ -34,8 +34,17 @@ public class Main {
  * Main method, responsible for running the program.
  * @param args the command line arguments -> not used
 */
-    public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-        setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+    public static void main(String[] args) {
+        try {
+            setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+        } catch (Exception e) {
+            try {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            } catch (Exception ex) {
+                System.err.println("Error: " + ex.getMessage());
+            }
+            System.err.println("Error: " + e.getMessage());
+        }
 
         javax.swing.SwingUtilities.invokeLater(Main::createAndShowGUI);
     }
