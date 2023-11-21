@@ -40,10 +40,8 @@ public class Main {
         } catch (Exception e) {
             try {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            } catch (Exception ex) {
-                System.err.println("Error: " + ex.getMessage());
+            } catch (Exception ignored) {
             }
-            System.err.println("Error: " + e.getMessage());
         }
 
         javax.swing.SwingUtilities.invokeLater(Main::createAndShowGUI);
