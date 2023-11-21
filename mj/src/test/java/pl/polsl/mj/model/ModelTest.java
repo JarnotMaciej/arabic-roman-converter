@@ -201,5 +201,17 @@ class ModelTest {
         Model model = new Model();
         assertThrows(IllegalArgumentException.class, () -> model.getArabicValue('Z'));
     }
+
+    @ParameterizedTest
+    @CsvSource({
+            "0",
+            "-10",
+            "4000"
+    })
+    void exceptionTest(int invalidArabic) {
+        Model model = new Model();
+
+        assertThrows(ModelException.class, () -> model.arabicToRoman(invalidArabic));
+    }
 }
 

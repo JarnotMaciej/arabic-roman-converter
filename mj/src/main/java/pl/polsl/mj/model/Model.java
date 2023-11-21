@@ -31,10 +31,57 @@ public class Model {
      */
     private enum RomanNumeral {
         /**
-         * @see RomanNumeral
+         * Roman numeral M - 1000 value.
          */
-        M(1000), CM(900), D(500), CD(400), C(100), XC(90),
-        L(50), XL(40), X(10), IX(9), V(5), IV(4), I(1);
+        M(1000),
+        /**
+         * Roman numeral CM - 900 value.
+         */
+        CM(900),
+        /**
+         * Roman numeral D - 500 value.
+         */
+        D(500),
+        /**
+         * Roman numeral CD - 400 value.
+         */
+        CD(400),
+        /**
+         * Roman numeral C - 100 value.
+         */
+        C(100),
+        /**
+         * Roman numeral XC - 90 value.
+         */
+        XC(90),
+        /**
+         * Roman numeral L - 50 value.
+         */
+        L(50),
+        /**
+         * Roman numeral XL - 40 value.
+         */
+        XL(40),
+        /**
+         * Roman numeral X - 10 value.
+         */
+        X(10),
+        /**
+         * Roman numeral IX - 9 value.
+         */
+        IX(9),
+        /**
+         * Roman numeral V - 5 value.
+         */
+        V(5),
+        /**
+         * Roman numeral IV - 4 value.
+         */
+        IV(4),
+        /**
+         * Roman numeral I - 1 value.
+         */
+        I(1);
 
         /**
          * Arabic value of a roman numeral.
@@ -85,6 +132,9 @@ public class Model {
      * @throws ModelException when arabic number is invalid
      */
     public String arabicToRoman(int arabic) throws ModelException {
+        if (arabic < 1 || arabic > 3999) {
+            throw new ModelException("Arabic number must be between 1 and 3999");
+        }
         StringBuilder roman = new StringBuilder();
         String tmpArabic = "" + arabic;
         int i = 0;
