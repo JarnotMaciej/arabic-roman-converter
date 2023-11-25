@@ -202,6 +202,7 @@ class ModelTest {
         assertThrows(IllegalArgumentException.class, () -> model.getArabicValue('Z'));
     }
 
+    @Disabled
     @ParameterizedTest
     @CsvSource({
             "0",

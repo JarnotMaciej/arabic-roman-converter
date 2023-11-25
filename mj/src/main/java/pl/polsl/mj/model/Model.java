@@ -129,12 +129,8 @@ public class Model {
      *
      * @param arabic arabic number to be converted
      * @return roman numeral
-     * @throws ModelException when arabic number is invalid
      */
-    public String arabicToRoman(int arabic) throws ModelException {
-        if (arabic < 1 || arabic > 3999) {
-            throw new ModelException("Arabic number must be between 1 and 3999");
-        }
+    public String arabicToRoman(int arabic) {
         StringBuilder roman = new StringBuilder();
         String tmpArabic = "" + arabic;
         int i = 0;
@@ -154,9 +150,8 @@ public class Model {
      *
      * @param roman roman numeral to be converted
      * @return arabic number
-     * @throws ModelException when roman numeral is invalid
      */
-    public int romanToArabic(String roman) throws ModelException {
+    public int romanToArabic(String roman) {
         int arabic = 0;
 
         for (int i = 0; i < roman.length(); i++) {
