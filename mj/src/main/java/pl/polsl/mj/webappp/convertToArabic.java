@@ -1,10 +1,5 @@
 package pl.polsl.mj.webappp;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,11 +7,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import static java.lang.System.out;
 
 import pl.polsl.mj.model.*;
 
 /**
+ * Servlet class, responsible for converting roman numbers to arabic.
  *
  * @author mj300741@student.polsl.pl
  * @version 1.3
@@ -42,7 +37,7 @@ public class convertToArabic extends HttpServlet {
         out.println("<!DOCTYPE html>");
         out.println("<html>");
         out.println("<head>");
-        out.println("<title>Servlet convertToArabic</title>");
+        out.println("<title>Convert to Arabic</title>");
         out.println("</head>");
 
         if (roman == null || !model.validateRoman(roman)) {

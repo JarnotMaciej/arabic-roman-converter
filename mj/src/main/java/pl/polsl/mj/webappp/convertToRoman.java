@@ -17,6 +17,7 @@ import static java.lang.System.out;
 import pl.polsl.mj.model.Model;
 
 /**
+ * Servlet class, responsible for converting arabic numbers to roman.
  *
  * @author mj300741@student.polsl.pl
  * @version 1.3
@@ -40,22 +41,24 @@ public class convertToRoman extends HttpServlet {
         out.println("<!DOCTYPE html>");
         out.println("<html>");
         out.println("<head>");
-        out.println("<title>Servlet convertToRoman</title>");
+        out.println("<title>Convert to Roman</title>");
         out.println("</head>");
         out.println("<body>");
 
         String arabic = request.getParameter("arabic");
         PrintWriter out = response.getWriter();
         if (arabic == null || !model.validateArabic(arabic)) {
-            // payara server error
             out.println("<h1>Error!</h1>");
         } else {
-            // String roman = model.arabicToRoman(arabic);
-            String roman = "Sample text";
+            try {
+                String roman = model.arabicToRoman(Integer.parseInt(arabic));
 
-            out.println("<h1>Servlet convertToRoman at " + request.getContextPath() + "</h1>");
-            out.println("<h2>Arabic: " + arabic + "</h2>");
-            out.println("<h2>Roman: " + roman + "</h2>");
+                out.println("<h1>Successfully converted to Roman!</h1>");
+                out.println("<h2>Arabic: " + arabic + "</h2>");
+                out.println("<h2>Roman: " + roman + "</h2>");
+            } catch (Exception e) {
+                out.println("<h1>Error: Invalid Arabic numeral!</h1>");
+            }
         }
         out.println("</body>");
         out.println("</html>");
