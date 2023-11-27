@@ -12,9 +12,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
-import static java.lang.System.out;
+import java.util.List;
 
-import pl.polsl.mj.model.Model;
+import jakarta.servlet.http.HttpSession;
+
+import pl.polsl.mj.model.*;
 
 /**
  * Servlet class, responsible for converting arabic numbers to roman.
@@ -38,17 +40,27 @@ public class convertToRoman extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        HttpSession session = request.getSession();
+        List<ConversionData> conversions = (List<ConversionData>) session.getAttribute("conversions");
+        if (conversions == null) {
+            conversions = new java.util.ArrayList<>();
+            session.setAttribute("conversions", conversions);
+        }
+
         out.println("<!DOCTYPE html>");
-        out.println("<html>");
+        out.println("<html lang=\"en\" data-bs-theme=\"dark\">");
         out.println("<head>");
         out.println("<title>Convert to Roman</title>");
+        out.println("<link href=\"bootstrap.min.css\" rel=\"stylesheet\" type=\"text/css\"/>");
         out.println("</head>");
         out.println("<body>");
+        out.println("<div class=\"container\">");
 
         String arabic = request.getParameter("arabic");
-        PrintWriter out = response.getWriter();
+
         if (arabic == null || !model.validateArabic(arabic)) {
-            out.println("<h1>Error!</h1>");
+            response.sendError(response.SC_BAD_REQUEST, "Invalid Arabic numeral! Number must be between 1 and 3999!");
         } else {
             try {
                 String roman = model.arabicToRoman(Integer.parseInt(arabic));
@@ -56,10 +68,13 @@ public class convertToRoman extends HttpServlet {
                 out.println("<h1>Successfully converted to Roman!</h1>");
                 out.println("<h2>Arabic: " + arabic + "</h2>");
                 out.println("<h2>Roman: " + roman + "</h2>");
+                conversions.add(new ConversionData("Arabic To Roman", arabic, roman, new java.util.Date()));
+                session.setAttribute("conversions", conversions);
             } catch (Exception e) {
                 out.println("<h1>Error: Invalid Arabic numeral!</h1>");
             }
         }
+        out.println("</div>");
         out.println("</body>");
         out.println("</html>");
     }

@@ -1,26 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" data-bs-theme="dark" xmlns="http://www.w3.org/1999/html">
     <head>
         <title>Arabic - Roman converter</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link href="bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link rel="icon" href="favicon.png" type="image/x-icon"/>
     </head>
     <body>
+    <div class="container">
         <h1>Arabic - Roman converter</h1>
         <h2>Arabic To Roman</h2>
         <p>Enter an arabic number to convert it to roman</p>
-        <form action="convertToRoman" method="get">
-            <label for="arabic">Arabic number:</label>
-            <input type="number" name="arabic" />
+        <form action="convertToRoman" class="mb-3" method="post">
+            <label for="arabic" class="form-label">Arabic number:</label>
+            <input id="arabic" class="form-control" type="number" min="1" max="3999" name="arabic" required/>
             <br />
-            <input type="submit" value="Convert" />
+            <input type="submit" class="btn btn-primary" value="Convert" />
         </form>
         <h2>Roman to Arabic</h2>
         <p>Enter a roman number to convert it to arabic</p>
-        <form action="convertToArabic" method="get">
-            <label for="roman">Roman number:</label>
-            <input type="text" name="roman" />
+        <form action="convertToArabic" class="mb-3" method="get">
+            <label for="roman" class="form-label">Roman number:</label>
+            <input id="roman" class="form-control" type="text" name="roman" required/>
             <br />
-            <input type="submit" value="Convert" />
+            <input type="submit" class="btn btn-primary" value="Convert" />
         </form>
+        <br>
+        <hr>
+        <br>
+        <form action="history" class="mb-3" method="get">
+            <input type="submit" class="btn btn-warning" value="History" />
+        </form>
+        </div>
     </body>
 </html>

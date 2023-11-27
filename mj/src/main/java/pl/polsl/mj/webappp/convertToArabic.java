@@ -2,11 +2,14 @@ package pl.polsl.mj.webappp;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import pl.polsl.mj.model.*;
 
@@ -32,26 +35,35 @@ public class convertToArabic extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String roman = request.getParameter("roman");
         PrintWriter out = response.getWriter();
+        HttpSession session = request.getSession();
+        List<ConversionData> conversions = (List<ConversionData>) session.getAttribute("conversions");
+        if (conversions == null) {
+            conversions = new java.util.ArrayList<>();
+            session.setAttribute("conversions", conversions);
+        }
+
+        String roman = request.getParameter("roman");
         out.println("<!DOCTYPE html>");
-        out.println("<html>");
+        out.println("<html lang=\"en\" data-bs-theme=\"dark\">");
         out.println("<head>");
         out.println("<title>Convert to Arabic</title>");
+        out.println("<link href=\"bootstrap.min.css\" rel=\"stylesheet\" type=\"text/css\"/>");
         out.println("</head>");
+        out.println("<body>");
+        out.println("<div class=\"container\">");
 
         if (roman == null || !model.validateRoman(roman)) {
-            // payara server error
-            out.println("<h1>Error!</h1>");
+            response.sendError(response.SC_BAD_REQUEST, "Invalid Roman numeral! Number must be between I and MMMCMXCIX!");
         } else {
             int arabic = model.romanToArabic(roman);
-
-            out.println("<body>");
-            out.println("<h1>Servlet convertToArabic at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Successfully converted to Arabic!</h1>");
             out.println("<h2>Roman: " + roman + "</h2>");
             out.println("<h2>Arabic: " + arabic + "</h2>");
-
+            conversions.add(new ConversionData("Roman to Arabic", roman, Integer.toString(arabic), new java.util.Date()));
+            session.setAttribute("conversions", conversions);
         }
+        out.println("</div>");
         out.println("</body>");
         out.println("</html>");
     }
