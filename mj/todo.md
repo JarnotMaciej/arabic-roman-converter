@@ -3,12 +3,14 @@
 - [ ] documentation (Javadoc) - description of all classes, methods, fields, and packages (including unit tests)
 - [ ] documentation (Javadoc) - mandatory tags: @author, @version, @param, @return, @throws
 - [ ] using model error!
+- [ ] **the** history page 
 
 ---
 
 # Doing
 
 - [ ] use of include or forward method
+- [ ] renaming titile on history -> check all of them, put favicon everywhere
 
 ---
 
