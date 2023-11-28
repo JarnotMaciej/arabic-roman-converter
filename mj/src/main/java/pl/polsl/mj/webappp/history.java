@@ -1,32 +1,30 @@
-package pl.polsl.mj.webappp;
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
+package pl.polsl.mj.webappp;
 
 import java.io.IOException;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 import java.util.List;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
-import pl.polsl.mj.model.*;
+import pl.polsl.mj.model.ConversionData;
 
 /**
- * Servlet class, responsible for converting arabic numbers to roman.
+ * Servlet class, responsible for displaying history of conversions.
  *
  * @author mj300741@student.polsl.pl
  * @version 1.3
  */
-@WebServlet(urlPatterns = { "/convertToRoman" })
-public class convertToRoman extends HttpServlet {
-    Model model = new Model();
+@WebServlet(name = "history", urlPatterns = { "/history" })
+public class history extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -47,6 +45,19 @@ public class convertToRoman extends HttpServlet {
             conversions = new java.util.ArrayList<>();
             session.setAttribute("conversions", conversions);
         }
+        // setting cookie -> how many visits user has made
+        Cookie[] cookies = request.getCookies();
+        Cookie visitCount = new Cookie("visits", "1");
+        if (cookies != null && cookies.length > 0) {
+            for (Cookie c : cookies) {
+                if ("visits".equals(c.getName())) {
+                    int count = Integer.parseInt(c.getValue());
+                    count++;
+                    visitCount = new Cookie("visits", Integer.toString(count));
+                }
+            }
+        }
+        response.addCookie(visitCount);
 
         out.println("<!DOCTYPE html>");
         out.println("<html lang=\"en\" data-bs-theme=\"dark\">");
@@ -57,23 +68,34 @@ public class convertToRoman extends HttpServlet {
         out.println("<body>");
         out.println("<div class=\"container\">");
 
-        String arabic = request.getParameter("arabic");
-
-        if (arabic == null || !model.validateArabic(arabic)) {
-            response.sendError(response.SC_BAD_REQUEST, "Invalid Arabic numeral! Number must be between 1 and 3999!");
+        out.println("<h1 class=\"mt-3\">History</h1>");
+        out.println("<table class=\"table table-striped table-hover\">");
+        out.println("<thead>");
+        out.println("<tr>");
+        out.println("<th scope=\"col\">Conversion type</th>");
+        out.println("<th scope=\"col\">Input</th>");
+        out.println("<th scope=\"col\">Result</th>");
+        out.println("<th scope=\"col\">Date</th>");
+        out.println("</tr>");
+        out.println("</thead>");
+        out.println("<tbody>");
+        if (conversions.isEmpty()) {
+            out.println("<tr>");
+            out.println("<td colspan=\"4\">No conversions yet.</td>");
+            out.println("</tr>");
         } else {
-            try {
-                String roman = model.arabicToRoman(Integer.parseInt(arabic));
-
-                out.println("<h1 class=\"mt-3\">Successfully converted to Roman!</h1>");
-                out.println("<h2>Arabic: " + arabic + "</h2>");
-                out.println("<h2>Roman: " + roman + "</h2>");
-                conversions.add(new ConversionData("Arabic To Roman", arabic, roman, new java.util.Date()));
-                session.setAttribute("conversions", conversions);
-            } catch (Exception e) {
-                out.println("<h1>Error: Invalid Arabic numeral!</h1>");
+            for (ConversionData conversion : conversions) {
+                out.println("<tr>");
+                out.println("<td>" + conversion.getConversionType() + "</td>");
+                out.println("<td>" + conversion.getInput() + "</td>");
+                out.println("<td>" + conversion.getResult() + "</td>");
+                out.println("<td>" + conversion.getDate() + "</td>");
+                out.println("</tr>");
             }
         }
+        out.println("</tbody>");
+        out.println("</table>");
+        out.println("<h2 class=\"m-3\">Number of visits on history page: " + visitCount.getValue() + "</h2>");
         out.println("<hr><a href=\"index.html\" class=\"btn btn-warning m-3\">Back</a>");
         out.println("</div>");
         out.println("</body>");

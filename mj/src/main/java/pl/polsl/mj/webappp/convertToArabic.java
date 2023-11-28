@@ -57,12 +57,13 @@ public class convertToArabic extends HttpServlet {
             response.sendError(response.SC_BAD_REQUEST, "Invalid Roman numeral! Number must be between I and MMMCMXCIX!");
         } else {
             int arabic = model.romanToArabic(roman);
-            out.println("<h1>Successfully converted to Arabic!</h1>");
+            out.println("<h1 class=\"mt-3\">Successfully converted to Arabic!</h1>");
             out.println("<h2>Roman: " + roman + "</h2>");
             out.println("<h2>Arabic: " + arabic + "</h2>");
             conversions.add(new ConversionData("Roman to Arabic", roman, Integer.toString(arabic), new java.util.Date()));
             session.setAttribute("conversions", conversions);
         }
+        out.println("<hr><a href=\"index.html\" class=\"btn btn-warning m-3\">Back</a>");
         out.println("</div>");
         out.println("</body>");
         out.println("</html>");
