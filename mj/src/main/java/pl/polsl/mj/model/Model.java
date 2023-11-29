@@ -129,8 +129,12 @@ public class Model {
      *
      * @param arabic arabic number to be converted
      * @return roman numeral
+     * @throws ModelException when arabic number is invalid
      */
-    public String arabicToRoman(int arabic) {
+    public String arabicToRoman(int arabic) throws ModelException {
+        if (!validateArabic("" + arabic)) {
+            throw new ModelException("Invalid arabic number");
+        }
         StringBuilder roman = new StringBuilder();
         String tmpArabic = "" + arabic;
         int i = 0;
@@ -150,8 +154,12 @@ public class Model {
      *
      * @param roman roman numeral to be converted
      * @return arabic number
+     * @throws ModelException when roman numeral is invalid
      */
-    public int romanToArabic(String roman) {
+    public int romanToArabic(String roman) throws ModelException {
+        if (!validateRoman(roman)) {
+            throw new ModelException("Invalid roman numeral");
+        }
         int arabic = 0;
 
         for (int i = 0; i < roman.length(); i++) {
@@ -220,16 +228,5 @@ public class Model {
             return false;
         }
         return arabic >= 1 && arabic <= 3999;
-    }
-
-    /**
-     * Validation method.
-     *
-     * @param arabicFlag - flag which indicates if the number is arabic or roman (true - arabic, false - roman)
-     * @param number - number to be validated
-     * @return true if number is valid, false otherwise
-     */
-    public boolean validate(boolean arabicFlag, String number) {
-        return arabicFlag ? validateArabic(number) : validateRoman(number);
     }
 }

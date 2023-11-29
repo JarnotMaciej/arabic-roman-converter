@@ -47,7 +47,8 @@ public class convertToArabic extends HttpServlet {
         out.println("<!DOCTYPE html>");
         out.println("<html lang=\"en\" data-bs-theme=\"dark\">");
         out.println("<head>");
-        out.println("<title>Convert to Arabic</title>");
+        out.println("<title>Arabic - Roman converter | Conversion</title>");
+        out.println("<link rel=\"icon\" href=\"favicon.png\" type=\"image/x-icon\"/>");
         out.println("<link href=\"bootstrap.min.css\" rel=\"stylesheet\" type=\"text/css\"/>");
         out.println("</head>");
         out.println("<body>");
@@ -56,12 +57,18 @@ public class convertToArabic extends HttpServlet {
         if (roman == null || !model.validateRoman(roman)) {
             response.sendError(response.SC_BAD_REQUEST, "Invalid Roman numeral! Number must be between I and MMMCMXCIX!");
         } else {
-            int arabic = model.romanToArabic(roman);
-            out.println("<h1 class=\"mt-3\">Successfully converted to Arabic!</h1>");
-            out.println("<h2>Roman: " + roman + "</h2>");
-            out.println("<h2>Arabic: " + arabic + "</h2>");
-            conversions.add(new ConversionData("Roman to Arabic", roman, Integer.toString(arabic), new java.util.Date()));
-            session.setAttribute("conversions", conversions);
+            int arabic = 0;
+            try {
+                arabic = model.romanToArabic(roman);
+                out.println("<h1 class=\"mt-3\">Successfully converted to Arabic!</h1>");
+                out.println("<h2>Roman: " + roman + "</h2>");
+                out.println("<h2>Arabic: " + arabic + "</h2>");
+                conversions.add(new ConversionData("Roman to Arabic", roman, Integer.toString(arabic), new java.util.Date()));
+                session.setAttribute("conversions", conversions);
+            } catch (Exception e) {
+                out.println("<h1 class=\"mt-3\">Error!</h1>");
+            }
+
         }
         out.println("<hr><a href=\"index.html\" class=\"btn btn-warning m-3\">Back</a>");
         out.println("</div>");

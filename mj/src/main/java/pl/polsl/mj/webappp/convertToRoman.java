@@ -51,7 +51,8 @@ public class convertToRoman extends HttpServlet {
         out.println("<!DOCTYPE html>");
         out.println("<html lang=\"en\" data-bs-theme=\"dark\">");
         out.println("<head>");
-        out.println("<title>Convert to Roman</title>");
+        out.println("<title>Arabic - Roman converter | Conversion</title>");
+        out.println("<link rel=\"icon\" href=\"favicon.png\" type=\"image/x-icon\"/>");
         out.println("<link href=\"bootstrap.min.css\" rel=\"stylesheet\" type=\"text/css\"/>");
         out.println("</head>");
         out.println("<body>");
@@ -71,7 +72,7 @@ public class convertToRoman extends HttpServlet {
                 conversions.add(new ConversionData("Arabic To Roman", arabic, roman, new java.util.Date()));
                 session.setAttribute("conversions", conversions);
             } catch (Exception e) {
-                out.println("<h1>Error: Invalid Arabic numeral!</h1>");
+                out.println("<h1>Error!</h1>");
             }
         }
         out.println("<hr><a href=\"index.html\" class=\"btn btn-warning m-3\">Back</a>");

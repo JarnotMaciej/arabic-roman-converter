@@ -62,7 +62,8 @@ public class history extends HttpServlet {
         out.println("<!DOCTYPE html>");
         out.println("<html lang=\"en\" data-bs-theme=\"dark\">");
         out.println("<head>");
-        out.println("<title>Convert to Roman</title>");
+        out.println("<title>Arabic - Roman converter | History</title>");
+        out.println("<link rel=\"icon\" href=\"favicon.png\" type=\"image/x-icon\"/>");
         out.println("<link href=\"bootstrap.min.css\" rel=\"stylesheet\" type=\"text/css\"/>");
         out.println("</head>");
         out.println("<body>");
@@ -95,8 +96,13 @@ public class history extends HttpServlet {
         }
         out.println("</tbody>");
         out.println("</table>");
-        out.println("<h2 class=\"m-3\">Number of visits on history page: " + visitCount.getValue() + "</h2>");
+        out.println("<h2 class=\"m-3\">Number of visits on the history page: " + visitCount.getValue() + "</h2>");
         out.println("<hr><a href=\"index.html\" class=\"btn btn-warning m-3\">Back</a>");
+
+        out.println("<form action=\"clear\" method=\"POST\">");
+        out.println("<input type=\"submit\" value=\"Clear history\" class=\"btn btn-danger m-3\">");
+        out.println("</form>");
+
         out.println("</div>");
         out.println("</body>");
         out.println("</html>");
