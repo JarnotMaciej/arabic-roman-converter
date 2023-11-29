@@ -17,10 +17,13 @@ import pl.polsl.mj.model.*;
  * Servlet class, responsible for converting roman numbers to arabic.
  *
  * @author mj300741@student.polsl.pl
- * @version 1.3
+ * @version 1.4
  */
-@WebServlet(urlPatterns = { "/convertToArabic" })
+@WebServlet(urlPatterns = {"/convertToArabic"})
 public class convertToArabic extends HttpServlet {
+    /**
+     * Model object, responsible for converting roman numbers to arabic.
+     */
     Model model = new Model();
 
     /**
@@ -54,22 +57,29 @@ public class convertToArabic extends HttpServlet {
         out.println("<body>");
         out.println("<div class=\"container\">");
 
-        if (roman == null || !model.validateRoman(roman)) {
-            response.sendError(response.SC_BAD_REQUEST, "Invalid Roman numeral! Number must be between I and MMMCMXCIX!");
+        if (roman == null) {
+            response.sendError(response.SC_BAD_REQUEST, "Missing parameter: roman");
         } else {
-            int arabic = 0;
-            try {
-                arabic = model.romanToArabic(roman);
-                out.println("<h1 class=\"mt-3\">Successfully converted to Arabic!</h1>");
-                out.println("<h2>Roman: " + roman + "</h2>");
-                out.println("<h2>Arabic: " + arabic + "</h2>");
-                conversions.add(new ConversionData("Roman to Arabic", roman, Integer.toString(arabic), new java.util.Date()));
-                session.setAttribute("conversions", conversions);
-            } catch (Exception e) {
-                out.println("<h1 class=\"mt-3\">Error!</h1>");
-            }
-
+            roman = roman.toUpperCase();
         }
+
+        if (!model.validateRoman(roman)) {
+            response.sendError(response.SC_BAD_REQUEST, "Invalid roman number");
+        }
+
+        int arabic = 0;
+        try {
+            arabic = model.romanToArabic(roman);
+            out.println("<h1 class=\"mt-3\">Successfully converted to Arabic!</h1>");
+            out.println("<h2>Roman: " + roman + "</h2>");
+            out.println("<h2>Arabic: " + arabic + "</h2>");
+            conversions.add(new ConversionData("Roman to Arabic", roman, Integer.toString(arabic), new java.util.Date()));
+            session.setAttribute("conversions", conversions);
+        } catch (Exception e) {
+            out.println("<h1 class=\"mt-3\">Error!</h1>");
+        }
+
+
         out.println("<hr><a href=\"index.html\" class=\"btn btn-warning m-3\">Back</a>");
         out.println("</div>");
         out.println("</body>");
@@ -78,6 +88,7 @@ public class convertToArabic extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the
     // + sign on the left to edit the code.">
+
     /**
      * Handles the HTTP <code>GET</code> method.
      *

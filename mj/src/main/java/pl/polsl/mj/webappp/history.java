@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package pl.polsl.mj.webappp;
 
 import java.io.IOException;
@@ -21,7 +17,7 @@ import pl.polsl.mj.model.ConversionData;
  * Servlet class, responsible for displaying history of conversions.
  *
  * @author mj300741@student.polsl.pl
- * @version 1.3
+ * @version 1.4
  */
 @WebServlet(name = "history", urlPatterns = { "/history" })
 public class history extends HttpServlet {
@@ -99,7 +95,7 @@ public class history extends HttpServlet {
         out.println("<h2 class=\"m-3\">Number of visits on the history page: " + visitCount.getValue() + "</h2>");
         out.println("<hr><a href=\"index.html\" class=\"btn btn-warning m-3\">Back</a>");
 
-        out.println("<form action=\"clear\" method=\"POST\">");
+        out.println("<form action=\"clear\" method=\"post\">");
         out.println("<input type=\"submit\" value=\"Clear history\" class=\"btn btn-danger m-3\">");
         out.println("</form>");
 

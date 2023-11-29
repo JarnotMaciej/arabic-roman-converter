@@ -9,7 +9,7 @@ import java.util.List;
  * Model class, responsible for converting arabic numbers to roman and vice versa.
  *
  * @author mj300741@student.polsl.pl
- * @version 1.3
+ * @version 1.4
  */
 public class Model {
     /**

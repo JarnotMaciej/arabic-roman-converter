@@ -1,10 +1,5 @@
 package pl.polsl.mj.webappp;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
-
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -22,10 +17,13 @@ import pl.polsl.mj.model.*;
  * Servlet class, responsible for converting arabic numbers to roman.
  *
  * @author mj300741@student.polsl.pl
- * @version 1.3
+ * @version 1.4
  */
 @WebServlet(urlPatterns = { "/convertToRoman" })
 public class convertToRoman extends HttpServlet {
+    /**
+     * Model object, responsible for converting arabic numbers to roman.
+     */
     Model model = new Model();
 
     /**

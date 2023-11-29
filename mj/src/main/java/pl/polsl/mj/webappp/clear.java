@@ -1,20 +1,22 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package pl.polsl.mj.webappp;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import pl.polsl.mj.model.ConversionData;
 
 /**
+ * Servlet class -> it clears history of conversions and redirects to history servlet.
  *
- * @author menox
+ * @author mj300741@student.polsl.pl
+ * @version 1.4
  */
 @WebServlet(name = "clear", urlPatterns = {"/clear"})
 public class clear extends HttpServlet {
@@ -31,18 +33,16 @@ public class clear extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet clear</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet clear at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        PrintWriter out = response.getWriter();
+        HttpSession session = request.getSession();
+        List<ConversionData> conversions = (List<ConversionData>) session.getAttribute("conversions");
+        if (conversions == null) {
+            conversions = new java.util.ArrayList<>();
+            session.setAttribute("conversions", conversions);
         }
+        conversions.clear();
+
+        getServletContext().getRequestDispatcher("/history").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

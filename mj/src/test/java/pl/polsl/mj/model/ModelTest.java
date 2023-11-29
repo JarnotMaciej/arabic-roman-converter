@@ -202,7 +202,10 @@ class ModelTest {
         assertThrows(IllegalArgumentException.class, () -> model.getArabicValue('Z'));
     }
 
-//    @Disabled
+    /**
+     * Test of ModelException class usage in a model.
+     * @param invalidArabic Invalid arabic number
+     */
     @ParameterizedTest
     @CsvSource({
             "0",
@@ -213,6 +216,38 @@ class ModelTest {
         Model model = new Model();
 
         assertThrows(ModelException.class, () -> model.arabicToRoman(invalidArabic));
+    }
+
+    /**
+     * Test of ModelException class usage in a model.
+     * @param invalidRoman Invalid roman numeral
+     */
+    @ParameterizedTest
+    @CsvSource({
+            "IIII",
+            "XXXX",
+            "CCCC",
+            "MMMM",
+            "VV",
+            "LL",
+            "DD",
+            "IL",
+            "IC",
+            "ID",
+            "IM",
+            "XD",
+            "XM",
+            "LC",
+            "LD",
+            "LM",
+            "DM",
+            "invalid",
+            "QWERTY",
+    })
+    void exceptionTest(String invalidRoman) {
+        Model model = new Model();
+
+        assertThrows(ModelException.class, () -> model.romanToArabic(invalidRoman));
     }
 }
 

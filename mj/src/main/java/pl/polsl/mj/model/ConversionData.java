@@ -6,7 +6,7 @@ import java.util.Date;
  * ConversionData class, responsible for storing conversion data.
  *
  * @author mj300741@student.polsl.pl
- * @version 1.3
+ * @version 1.4
  */
 public class ConversionData {
     /**
