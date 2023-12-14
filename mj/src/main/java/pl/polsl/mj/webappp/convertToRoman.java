@@ -8,8 +8,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 import java.util.List;
-
 import jakarta.servlet.http.HttpSession;
+import java.sql.*;
 
 import pl.polsl.mj.model.*;
 
@@ -39,12 +39,13 @@ public class convertToRoman extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        HttpSession session = request.getSession();
-        List<ConversionData> conversions = (List<ConversionData>) session.getAttribute("conversions");
-        if (conversions == null) {
-            conversions = new java.util.ArrayList<>();
-            session.setAttribute("conversions", conversions);
-        }
+        // HttpSession session = request.getSession();
+        // List<ConversionData> conversions = (List<ConversionData>)
+        // session.getAttribute("conversions");
+        // if (conversions == null) {
+        // conversions = new java.util.ArrayList<>();
+        // session.setAttribute("conversions", conversions);
+        // }
 
         out.println("<!DOCTYPE html>");
         out.println("<html lang=\"en\" data-bs-theme=\"dark\">");
@@ -67,10 +68,40 @@ public class convertToRoman extends HttpServlet {
                 out.println("<h1 class=\"mt-3\">Successfully converted to Roman!</h1>");
                 out.println("<h2>Arabic: " + arabic + "</h2>");
                 out.println("<h2>Roman: " + roman + "</h2>");
-                conversions.add(new ConversionData("Arabic To Roman", arabic, roman, new java.util.Date()));
-                session.setAttribute("conversions", conversions);
+                // conversions.add(new ConversionData("Arabic To Roman", arabic, roman, new
+                // java.util.Date()));
+                // session.setAttribute("conversions", conversions);
+                // db stuff
+                try {
+                    Class.forName("org.apache.derby.jdbc.ClientDriver");
+                } catch (ClassNotFoundException ex) {
+                    System.err.println("Class not found");
+                }
+
+                try (Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/lab", "app", "app")) {
+                    DatabaseMetaData dbm = con.getMetaData();
+                    ResultSet tables = dbm.getTables(null, null, "CONVERSIONS", null);
+                    if (!tables.next()) {
+                        Statement statement = con.createStatement();
+                        statement.executeUpdate("CREATE TABLE CONVERSIONS (ConversionType VARCHAR(20), Input VARCHAR(20), Output VARCHAR(20), Date TIMESTAMP)");
+                    }
+                } catch (SQLException sqle) {
+                    System.err.println(sqle.getMessage());
+                }
+
+                try (Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/lab", "app", "app")) {
+                    PreparedStatement ps = con.prepareStatement("INSERT INTO CONVERSIONS VALUES (?, ?, ?, ?)");
+                    ps.setString(1, "Arabic To Roman");
+                    ps.setString(2, arabic);
+                    ps.setString(3, roman);
+                    ps.setTimestamp(4, new java.sql.Timestamp(new java.util.Date().getTime()));
+                    ps.executeUpdate();
+                    System.out.println("Data inserted");
+                } catch (SQLException sqle) {
+                    System.err.println(sqle.getMessage());
+                }
             } catch (Exception e) {
-                out.println("<h1>Error!</h1>");
+                out.println("<h1 class=\"mt-3\">Error!</h1>");
             }
         }
         out.println("<hr><a href=\"index.html\" class=\"btn btn-warning m-3\">Back</a>");

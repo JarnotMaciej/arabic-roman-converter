@@ -18,6 +18,11 @@
     
     <dependencies>
         <dependency>
+            <groupId>org.apache.derbyclient</groupId>
+            <artifactId>derby-client</artifactId>
+            <version>10.14.2.0</version>
+        </dependency>
+        <dependency>
             <groupId>jakarta.platform</groupId>
             <artifactId>jakarta.jakartaee-api</artifactId>
             <version>${jakartaee}</version>

@@ -1,6 +1,10 @@
 package pl.polsl.mj.model;
 
 import java.util.Date;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 /**
  * ConversionData class, responsible for storing conversion data.
@@ -8,23 +12,31 @@ import java.util.Date;
  * @author mj300741@student.polsl.pl
  * @version 1.4
  */
+@Entity
 public class ConversionData {
     /**
-     * Conversion type.
+     * Id.
      */
-    private final String conversionType;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    /**
+     * Conversion type.
+      */
+    private String conversionType;
     /**
      * Input.
      */
-    private final String input;
+    private String input;
     /**
      * Output/result.
      */
-    private final String result;
+    private String result;
     /**
      * Date of conversion.
      */
-    private final Date date;
+    private Date date;
 
     /**
      * Constructor of the ConversionData class.
@@ -39,6 +51,16 @@ public class ConversionData {
         this.input = input;
         this.result = result;
         this.date = date;
+    }
+
+
+    /**
+     * Getter for id.
+     *
+     * @return id
+     */
+    public Long getId() {
+        return id;
     }
 
     /**
@@ -75,6 +97,44 @@ public class ConversionData {
      */
     public Date getDate() {
         return date;
+    }
+
+    // setters
+
+    /**
+     * Setter for id.
+     *
+     * @param id id
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
+     * Getter for conversion type.
+     *
+     * @param conversionType conversion type
+     */
+    public void setConversionType(String conversionType) {
+        this.conversionType = conversionType;
+    }
+
+    /**
+     * Setter for input.
+     *
+     * @param input input
+     */
+    public void setInput(String input) {
+        this.input = input;
+    }
+
+    /**
+     * Setter for result.
+     *
+     * @param result result
+     */
+    public void setResult(String result) {
+        this.result = result;
     }
 
 }
