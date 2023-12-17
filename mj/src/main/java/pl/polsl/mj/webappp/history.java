@@ -10,7 +10,8 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import java.sql.*;
+
 import pl.polsl.mj.model.ConversionData;
 
 /**
@@ -35,12 +36,6 @@ public class history extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        HttpSession session = request.getSession();
-        List<ConversionData> conversions = (List<ConversionData>) session.getAttribute("conversions");
-        if (conversions == null) {
-            conversions = new java.util.ArrayList<>();
-            session.setAttribute("conversions", conversions);
-        }
         // setting cookie -> how many visits user has made
         Cookie[] cookies = request.getCookies();
         Cookie visitCount = new Cookie("visits", "1");
@@ -54,6 +49,29 @@ public class history extends HttpServlet {
             }
         }
         response.addCookie(visitCount);
+
+        try {
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
+        } catch (ClassNotFoundException ex) {
+            System.err.println("Class not found");
+        }
+
+        List<ConversionData> conversions = new java.util.ArrayList<>();
+        try (Connection connection = DriverManager.getConnection("jdbc:derby://localhost:1527/lab", "app",
+                "app")) {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM CONVERSIONDATA");
+            while (resultSet.next()) {
+                conversions.add(new ConversionData(resultSet.getString("CONVERSIONTYPE"), resultSet.getString("DATAIN"),
+                        resultSet.getString("DATAOUT"), resultSet.getDate("DATE")));
+                        System.out.println(resultSet.getString("CONVERSIONTYPE"));
+                        
+            }
+        } catch (SQLException ex) {
+            System.err.println("SQL exception: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+
 
         out.println("<!DOCTYPE html>");
         out.println("<html lang=\"en\" data-bs-theme=\"dark\">");

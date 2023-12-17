@@ -2,14 +2,12 @@ package pl.polsl.mj.webappp;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.sql.*;
 
 import pl.polsl.mj.model.*;
@@ -40,13 +38,6 @@ public class convertToArabic extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        // HttpSession session = request.getSession();
-        // List<ConversionData> conversions = (List<ConversionData>) session.getAttribute("conversions");
-        // if (conversions == null) {
-        //     conversions = new java.util.ArrayList<>();
-        //     session.setAttribute("conversions", conversions);
-        // }
-
 
         String roman = request.getParameter("roman");
         out.println("<!DOCTYPE html>");
@@ -75,9 +66,6 @@ public class convertToArabic extends HttpServlet {
             out.println("<h1 class=\"mt-3\">Successfully converted to Arabic!</h1>");
             out.println("<h2>Roman: " + roman + "</h2>");
             out.println("<h2>Arabic: " + arabic + "</h2>");
-            // conversions.add(new ConversionData("Roman to Arabic", roman, Integer.toString(arabic), new java.util.Date()));
-            // session.setAttribute("conversions", conversions);
-            // db stuff
             try {
                 Class.forName("org.apache.derby.jdbc.ClientDriver");
             } catch (ClassNotFoundException ex) {
@@ -89,7 +77,7 @@ public class convertToArabic extends HttpServlet {
                 ResultSet tables = dbm.getTables(null, null, "CONVERSIONDATA", null);
                 if (!tables.next()) {
                     Statement statement = con.createStatement();
-                    statement.executeUpdate("CREATE TABLE ConversionData (ConversionType VARCHAR(20), Roman VARCHAR(20), Arabic VARCHAR(20), Date TIMESTAMP)");
+                    statement.executeUpdate("CREATE TABLE CONVERSIONDATA (CONVERSIONTYPE VARCHAR(20), DATAIN VARCHAR(20), DATAOUT VARCHAR(20), DATE TIMESTAMP)");
                 }
             } catch (SQLException sqle) {
                 System.err.println(sqle.getMessage());
