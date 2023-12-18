@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.sql.*;
 
 import pl.polsl.mj.model.ConversionData;
+import pl.polsl.mj.manager.DatabaseConnector;
 
 /**
  * Servlet class, responsible for displaying history of conversions.
@@ -50,16 +51,17 @@ public class history extends HttpServlet {
         }
         response.addCookie(visitCount);
 
+        
         try {
             Class.forName("org.apache.derby.jdbc.ClientDriver");
         } catch (ClassNotFoundException ex) {
             System.err.println("Class not found");
         }
+        
+        Connection con = DatabaseConnector.getConnection();
 
         List<ConversionData> conversions = new java.util.ArrayList<>();
-        try (Connection connection = DriverManager.getConnection("jdbc:derby://localhost:1527/lab", "app",
-                "app")) {
-            Statement statement = connection.createStatement();
+        try (Statement statement = con.createStatement()) {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM CONVERSIONDATA");
             while (resultSet.next()) {
                 conversions.add(new ConversionData(resultSet.getString("CONVERSIONTYPE"), resultSet.getString("DATAIN"),
@@ -67,11 +69,10 @@ public class history extends HttpServlet {
                         System.out.println(resultSet.getString("CONVERSIONTYPE"));
                         
             }
-        } catch (SQLException ex) {
-            System.err.println("SQL exception: " + ex.getMessage());
+        } catch (Exception ex) {
+            System.err.println("Exception: " + ex.getMessage());
             ex.printStackTrace();
         }
-
 
         out.println("<!DOCTYPE html>");
         out.println("<html lang=\"en\" data-bs-theme=\"dark\">");

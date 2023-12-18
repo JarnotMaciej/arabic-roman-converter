@@ -86,7 +86,6 @@ public class convertToArabic extends HttpServlet {
             try ( Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/lab", "app", "app")) {
                 Statement statement = con.createStatement();
                 statement.executeUpdate("INSERT INTO ConversionData VALUES ('Roman to Arabic', '" + roman + "', '" + arabic + "', CURRENT_TIMESTAMP)");
-                System.out.println("Data inserted");
             } catch (SQLException sqle) {
                 System.err.println(sqle.getMessage());
             }
