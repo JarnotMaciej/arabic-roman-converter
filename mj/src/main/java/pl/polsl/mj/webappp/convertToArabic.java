@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.*;
 
+import pl.polsl.mj.manager.DatabaseConnector;
 import pl.polsl.mj.model.*;
 
 /**
@@ -66,17 +67,17 @@ public class convertToArabic extends HttpServlet {
             out.println("<h1 class=\"mt-3\">Successfully converted to Arabic!</h1>");
             out.println("<h2>Roman: " + roman + "</h2>");
             out.println("<h2>Arabic: " + arabic + "</h2>");
-            try {
-                Class.forName("org.apache.derby.jdbc.ClientDriver");
-            } catch (ClassNotFoundException ex) {
-                    System.err.println("Class not found");
-            }
 
-            try ( Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/lab", "app", "app")) {
-                Statement statement = con.createStatement();
-                statement.executeUpdate("INSERT INTO ConversionData VALUES ('Roman to Arabic', '" + roman + "', '" + arabic + "', CURRENT_TIMESTAMP)");
-            } catch (SQLException sqle) {
-                System.err.println(sqle.getMessage());
+            try {
+                Connection con = DatabaseConnector.getConnection();
+                try (Statement statement = con.createStatement()) {
+                    statement.executeUpdate("INSERT INTO ConversionData VALUES ('Roman to Arabic', '" + roman
+                            + "', '" + arabic + "', CURRENT_TIMESTAMP)");
+                } catch (Exception e) {
+                    System.err.println(e.getMessage());
+                }
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
             }
 
         } catch (Exception e) {

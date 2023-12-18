@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 import java.sql.*;
 
+import pl.polsl.mj.manager.DatabaseConnector;
 import pl.polsl.mj.model.*;
 
 /**
@@ -61,16 +62,16 @@ public class convertToRoman extends HttpServlet {
                 out.println("<h2>Roman: " + roman + "</h2>");
 
                 try {
-                    Class.forName("org.apache.derby.jdbc.ClientDriver");
-                } catch (ClassNotFoundException ex) {
-                    System.err.println("Class not found");
-                }
+                    Connection con = DatabaseConnector.getConnection();
 
-                try (Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/lab", "app", "app")) {
-                    Statement statement = con.createStatement();
-                    statement.executeUpdate("INSERT INTO ConversionData VALUES ('Arabic to Roman', '" + arabic + "', '" + roman + "', CURRENT_TIMESTAMP)");
-                } catch (SQLException sqle) {
-                    System.err.println(sqle.getMessage());
+                    try (Statement statement = con.createStatement()) {
+                        statement.executeUpdate("INSERT INTO ConversionData VALUES ('Arabic to Roman', '" + arabic
+                                + "', '" + roman + "', CURRENT_TIMESTAMP)");
+                    } catch (Exception e) {
+                        System.err.println(e.getMessage());
+                    }
+                } catch (Exception e) {
+                    out.println("<h1 class=\"mt-3\">Error!</h1>");
                 }
             } catch (Exception e) {
                 out.println("<h1 class=\"mt-3\">Error!</h1>");
