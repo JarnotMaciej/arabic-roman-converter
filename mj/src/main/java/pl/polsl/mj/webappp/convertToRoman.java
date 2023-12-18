@@ -67,17 +67,6 @@ public class convertToRoman extends HttpServlet {
                 }
 
                 try (Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/lab", "app", "app")) {
-                    DatabaseMetaData dbm = con.getMetaData();
-                    ResultSet tables = dbm.getTables(null, null, "CONVERSIONS", null);
-                    if (!tables.next()) {
-                        Statement statement = con.createStatement();
-                        statement.executeUpdate("CREATE TABLE CONVERSIONDATA (CONVERSIONTYPE VARCHAR(20), DATAIN VARCHAR(20), DATAOUT VARCHAR(20), DATE TIMESTAMP)");
-                    }
-                } catch (SQLException sqle) {
-                    System.err.println(sqle.getMessage());
-                }
-
-                try (Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/lab", "app", "app")) {
                     Statement statement = con.createStatement();
                     statement.executeUpdate("INSERT INTO ConversionData VALUES ('Arabic to Roman', '" + arabic + "', '" + roman + "', CURRENT_TIMESTAMP)");
                 } catch (SQLException sqle) {
