@@ -4,7 +4,7 @@ package pl.polsl.mj.model;
  * Custom exception class for model.
  *
  * @author mj300741@student.polsl.pl
- * @version 1.4
+ * @version 1.5
  */
 public class ModelException extends Exception {
 

@@ -8,7 +8,7 @@ import jakarta.servlet.ServletContextListener;
  * Startup class, responsible for initializing database and performing cleanup.
  *
  * @author mj300741@student.polsl.pl
- * @version 1.4
+ * @version 1.5
  */
 public class Startup implements ServletContextListener {
 
@@ -25,9 +25,7 @@ public class Startup implements ServletContextListener {
         String dbuser = context.getInitParameter("dbuser");
         String dbpassword = context.getInitParameter("dbpassword");
         DatabaseConnector.createConnection(dburl, dbuser, dbpassword);
-        System.out.println("Database initialized!");
-        DatabaseConnector.createConversionDataTable(DatabaseConnector.getConnection());
-        System.out.println("Database table is ready!");
+        DatabaseConnector.createConversionDataTable();
     }
 
     /**
@@ -38,7 +36,5 @@ public class Startup implements ServletContextListener {
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
         DatabaseConnector.closeConnection();
-        
-        System.out.println("Database cleaning executed!");
     }
 }

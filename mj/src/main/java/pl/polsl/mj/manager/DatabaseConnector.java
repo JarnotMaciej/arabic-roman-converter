@@ -2,13 +2,11 @@ package pl.polsl.mj.manager;
 
 import java.sql.*;
 
-import javax.xml.crypto.Data;
-
 /**
  * DatabaseManager class, responsible for managing database.
  *
  * @author mj300741@student.polsl.pl
- * @version 1.4
+ * @version 1.5
  */
 public class DatabaseConnector {
     /**
@@ -27,8 +25,8 @@ public class DatabaseConnector {
         try {
             Class.forName("org.apache.derby.jdbc.ClientDriver");
             con = DriverManager.getConnection(dburl, dbuser, dbpassword);
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
         }
     }
 
@@ -39,8 +37,8 @@ public class DatabaseConnector {
         if(con != null) {
             try {
                 con.close();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
+            } catch (SQLException e) {
+                System.err.println(e.getMessage());
             }
         }
     }
@@ -58,11 +56,9 @@ public class DatabaseConnector {
     /**
      * Method responsible for creating conversion data table.
      *
-     * @param con connection
      */
-    public static void createConversionDataTable(Connection con) {
+    public static void createConversionDataTable() {
         try {
-            Connection connection = con;
             DatabaseMetaData dbm = con.getMetaData();
             ResultSet rs = dbm.getTables(null, null, "CONVERSIONDATA", null);
 
@@ -72,8 +68,25 @@ public class DatabaseConnector {
                             "CREATE TABLE CONVERSIONDATA (CONVERSIONTYPE VARCHAR(20), DATAIN VARCHAR(20), DATAOUT VARCHAR(20), DATE TIMESTAMP)");
                 }
             }
-        } catch (Exception sqle) {
-            System.err.println(sqle.getMessage());
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    /**
+     * Method responsible for clearing conversion data table.
+     */
+    public static void clearConversionDataTable() {
+        try {
+            Connection con = getConnection();
+
+            try (Statement statement = con.createStatement()) {
+                statement.executeUpdate("DELETE FROM ConversionData");
+            } catch (Exception sqle) {
+                System.err.println(sqle.getMessage());
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
         }
     }
     

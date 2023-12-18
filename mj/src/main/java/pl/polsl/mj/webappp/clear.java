@@ -1,22 +1,20 @@
 package pl.polsl.mj.webappp;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import pl.polsl.mj.model.ConversionData;
+import pl.polsl.mj.manager.DatabaseConnector;
 
 /**
  * Servlet class -> it clears history of conversions and redirects to history servlet.
  *
  * @author mj300741@student.polsl.pl
- * @version 1.4
+ * @version 1.5
  */
 @WebServlet(name = "clear", urlPatterns = {"/clear"})
 public class clear extends HttpServlet {
@@ -33,14 +31,19 @@ public class clear extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        HttpSession session = request.getSession();
-        List<ConversionData> conversions = (List<ConversionData>) session.getAttribute("conversions");
-        if (conversions == null) {
-            conversions = new java.util.ArrayList<>();
-            session.setAttribute("conversions", conversions);
+
+        DatabaseConnector.clearConversionDataTable();
+
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null && cookies.length > 0) {
+            for (Cookie c : cookies) {
+                if ("visits".equals(c.getName())) {
+                    c.setValue("0");
+                    response.addCookie(c);
+                    break;
+                }
+            }
         }
-        conversions.clear();
 
         getServletContext().getRequestDispatcher("/history").forward(request, response);
     }

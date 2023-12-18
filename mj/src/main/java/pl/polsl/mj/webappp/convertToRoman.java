@@ -16,7 +16,7 @@ import pl.polsl.mj.model.*;
  * Servlet class, responsible for converting arabic numbers to roman.
  *
  * @author mj300741@student.polsl.pl
- * @version 1.4
+ * @version 1.5
  */
 @WebServlet(urlPatterns = { "/convertToRoman" })
 public class convertToRoman extends HttpServlet {

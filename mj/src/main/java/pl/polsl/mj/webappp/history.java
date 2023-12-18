@@ -19,7 +19,7 @@ import pl.polsl.mj.manager.DatabaseConnector;
  * Servlet class, responsible for displaying history of conversions.
  *
  * @author mj300741@student.polsl.pl
- * @version 1.4
+ * @version 1.5
  */
 @WebServlet(name = "history", urlPatterns = { "/history" })
 public class history extends HttpServlet {
@@ -46,6 +46,7 @@ public class history extends HttpServlet {
                     int count = Integer.parseInt(c.getValue());
                     count++;
                     visitCount = new Cookie("visits", Integer.toString(count));
+                    break;
                 }
             }
         }
@@ -66,8 +67,6 @@ public class history extends HttpServlet {
             while (resultSet.next()) {
                 conversions.add(new ConversionData(resultSet.getString("CONVERSIONTYPE"), resultSet.getString("DATAIN"),
                         resultSet.getString("DATAOUT"), resultSet.getDate("DATE")));
-                        System.out.println(resultSet.getString("CONVERSIONTYPE"));
-                        
             }
         } catch (Exception ex) {
             System.err.println("Exception: " + ex.getMessage());

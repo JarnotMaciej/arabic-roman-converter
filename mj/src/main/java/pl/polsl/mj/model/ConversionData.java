@@ -10,7 +10,7 @@ import jakarta.persistence.Id;
  * ConversionData class, responsible for storing conversion data.
  *
  * @author mj300741@student.polsl.pl
- * @version 1.4
+ * @version 1.5
  */
 @Entity
 public class ConversionData {
