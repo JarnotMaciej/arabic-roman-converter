@@ -20,7 +20,7 @@ import pl.polsl.mj.model.*;
  * @version 1.5
  */
 @WebServlet(urlPatterns = {"/convertToArabic"})
-public class convertToArabic extends HttpServlet {
+public class RomanToArabicServlet extends HttpServlet {
     /**
      * Model object, responsible for converting roman numbers to arabic.
      */
@@ -52,13 +52,13 @@ public class convertToArabic extends HttpServlet {
         out.println("<div class=\"container\">");
 
         if (roman == null) {
-            response.sendError(response.SC_BAD_REQUEST, "Missing parameter: roman");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing parameter: roman");
         } else {
             roman = roman.toUpperCase();
         }
 
         if (!model.validateRoman(roman)) {
-            response.sendError(response.SC_BAD_REQUEST, "Invalid roman number");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid roman number");
         }
 
         int arabic = 0;

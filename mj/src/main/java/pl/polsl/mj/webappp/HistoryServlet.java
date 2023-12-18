@@ -16,13 +16,13 @@ import pl.polsl.mj.model.ConversionData;
 import pl.polsl.mj.manager.DatabaseConnector;
 
 /**
- * Servlet class, responsible for displaying history of conversions.
+ * Servlet class, responsible for displaying HistoryServlet of conversions.
  *
  * @author mj300741@student.polsl.pl
  * @version 1.5
  */
 @WebServlet(name = "history", urlPatterns = { "/history" })
-public class history extends HttpServlet {
+public class HistoryServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

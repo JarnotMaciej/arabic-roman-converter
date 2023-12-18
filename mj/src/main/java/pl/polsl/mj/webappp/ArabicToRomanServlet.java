@@ -19,7 +19,7 @@ import pl.polsl.mj.model.*;
  * @version 1.5
  */
 @WebServlet(urlPatterns = { "/convertToRoman" })
-public class convertToRoman extends HttpServlet {
+public class ArabicToRomanServlet extends HttpServlet {
     /**
      * Model object, responsible for converting arabic numbers to roman.
      */
@@ -52,7 +52,7 @@ public class convertToRoman extends HttpServlet {
         String arabic = request.getParameter("arabic");
 
         if (arabic == null || !model.validateArabic(arabic)) {
-            response.sendError(response.SC_BAD_REQUEST, "Invalid Arabic numeral! Number must be between 1 and 3999!");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid Arabic numeral! Number must be between 1 and 3999!");
         } else {
             try {
                 String roman = model.arabicToRoman(Integer.parseInt(arabic));

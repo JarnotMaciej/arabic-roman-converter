@@ -1,19 +1,19 @@
 # To-Do
 
-- [ ] documentation (Javadoc) - description of all classes, methods, fields, and packages (including unit tests),
-- [ ] documentation (Javadoc) - mandatory tags: @author, @version, @param, @return, @throws,
 
 ---
 
 # Doing
 
-- [ ] Java naming convention and English identifiers.
+- [ ] documentation (Javadoc) - mandatory tags: @author, @version, @param, @return, @throws,
+- [ ] documentation (Javadoc) - description of all classes, methods, fields, and packages (including unit tests),
 
 ---
 
 # Done
 
-- [ ] database exceptions handling,
+- [x] Java naming convention and English identifiers.
+- [x] database exceptions handling,
 - [x] System.out.println clean up
 - [x] deleting stuff from db + clearing cookies :D
 - [x] scope of the final projects no. 1-4 (model, tests, web application),

@@ -17,7 +17,7 @@ import pl.polsl.mj.manager.DatabaseConnector;
  * @version 1.5
  */
 @WebServlet(name = "clear", urlPatterns = {"/clear"})
-public class clear extends HttpServlet {
+public class ClearServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
